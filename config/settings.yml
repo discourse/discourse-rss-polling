@@ -2,3 +2,10 @@ plugins:
   wellfed_enabled:
     default: false
     shadowed_by_global: true
+
+  # This stores a YAML serialized array of feed setting tuples, in the format of
+  #   [feed_url, author_username]
+  wellfed_feed_setting:
+    default: '[]'
+    hidden: true
+    client: false
