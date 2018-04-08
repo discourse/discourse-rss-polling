@@ -1,0 +1,4 @@
+plugins:
+  wellfed_enabled:
+    default: false
+    shadowed_by_global: true
