@@ -9,3 +9,7 @@ plugins:
     default: '[]'
     hidden: true
     client: false
+
+  wellfed_polling_frequency:
+    default: 10
+    client: false

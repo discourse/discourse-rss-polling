@@ -4,12 +4,20 @@ module DiscourseWellfed
       @feed_url = args[:feed_url]
       @author = User.find_by_username(args[:author_username])
 
-      poll_feed
+      poll_feed if not_polled_recently?
     end
 
     private
 
     attr_reader :feed_url, :author
+
+    def feed_key
+      "feed-polled:#{Digest::SHA1.hexdigest(feed_url)}"
+    end
+
+    def not_polled_recently?
+      $redis.set(feed_key, 1, ex: SiteSetting.wellfed_polling_frequency.minutes - 10.seconds, nx: true)
+    end
 
     def poll_feed
       topics_polled_from_feed.each do |topic|
