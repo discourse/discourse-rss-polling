@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe DiscourseWellfed::PollFeed do
+RSpec.describe Jobs::DiscourseWellfed::PollFeed do
   let(:feed_url) { 'https://blog.discourse.org/feed/' }
   let(:author) { Fabricate(:user) }
   let(:raw_feed) { file_from_fixtures('feed.rss', 'feed') }
-  let(:job) { DiscourseWellfed::PollFeed.new }
+  let(:job) { Jobs::DiscourseWellfed::PollFeed.new }
 
   describe '#execute' do
     before do
