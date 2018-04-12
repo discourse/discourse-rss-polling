@@ -14,7 +14,7 @@ RSpec.describe TopicRetriever do
 
   describe '#retrieve' do
     it do
-      $redis.del("feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+      $redis.del("wellfed-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
       stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 
       expect { topic_retriever.retrieve }.to change { author.topics.count }

@@ -15,7 +15,7 @@ module Jobs
       attr_reader :feed_url, :author
 
       def feed_key
-        "feed-polled:#{Digest::SHA1.hexdigest(feed_url)}"
+        "wellfed-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}"
       end
 
       def not_polled_recently?

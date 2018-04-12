@@ -11,6 +11,7 @@ RSpec.describe Jobs::DiscourseWellfed::PollAllFeeds do
       ].to_yaml
 
       SiteSetting.queue_jobs = true
+      $redis.del('wellfed-feeds-polled')
     end
 
     it 'queues correct PollFeed jobs' do
@@ -24,6 +25,13 @@ RSpec.describe Jobs::DiscourseWellfed::PollAllFeeds do
 
         expect(enqueued_jobs_args[1]['feed_url']).to eq('https://blog.discourse.org/feed/')
         expect(enqueued_jobs_args[1]['author_username']).to eq('discourse')
+      end
+    end
+
+    it 'is rate limited' do
+      Sidekiq::Testing.fake! do
+        expect { job.execute({}) }.to change { Jobs::DiscourseWellfed::PollFeed.jobs.size }.by(2)
+        expect { job.execute({}) }.to_not change { Jobs::DiscourseWellfed::PollFeed.jobs.size }
       end
     end
   end
