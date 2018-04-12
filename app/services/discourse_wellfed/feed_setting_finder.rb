@@ -5,6 +5,10 @@ module DiscourseWellfed
       new.where { |feed_url, *_| feed_url.include?(host) }.take
     end
 
+    def self.all
+      new.all
+    end
+
     def initialize
       @condition = Proc.new { |*| true }
     end
