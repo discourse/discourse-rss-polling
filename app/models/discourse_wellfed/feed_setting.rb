@@ -1,5 +1,7 @@
 module DiscourseWellfed
   class FeedSetting
+    include ActiveModel::Serialization
+
     attr_accessor(
       :feed_url,
       :author_username,

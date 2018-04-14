@@ -1,3 +1,5 @@
 DiscourseWellfed::Engine.routes.draw do
-  resources :feed_settings, path: '/', constraints: StaffConstraint.new, only: [:index]
+  root 'feed_settings#show'
+
+  resource :feed_settings, constraints: StaffConstraint.new, only: [:show]
 end
