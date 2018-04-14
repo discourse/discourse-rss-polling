@@ -26,4 +26,15 @@ describe DiscourseWellfed::FeedSettingsController do
       expect(response.body).to eq(expected_json)
     end
   end
+
+  describe '#update' do
+    it 'updates SiteSetting.wellfed_feed_setting' do
+      put :update, format: :json, params: {
+        feed_settings: [{ feed_url: 'https://www.newsite.com/feed', author_username: 'system' }]
+      }
+
+      expect(response).to be_success
+      expect(SiteSetting.wellfed_feed_setting).to eq([['https://www.newsite.com/feed', 'system']].to_yaml)
+    end
+  end
 end
