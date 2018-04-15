@@ -3,3 +3,7 @@ en:
     wellfed:
       title: Wellfed
 
+    admin:
+      wellfed:
+        add_feed: Add Feed
+        save: Save

@@ -2,24 +2,50 @@
   <tr>
     <th>Feed URL</th>
     <th>Author</th>
+    <th></th>
   </tr>
 
-  {{#each feedSettings as |feedSetting|}}
-  <tr>
-    <td>
-      {{input
-        value=feedSetting.feed_url
-        placeholder="https://blog.example.com/feed"
-      }}
-    </td>
-    <td>
-      {{user-selector
-        single=true
-        allowAny=true
-        includeGroups=false
-        usernames=feedSetting.author_username
-      }}
-    </td>
-  </tr>
+  {{#each model as |setting|}}
+    <tr>
+      <td>
+        {{input
+          value=setting.feed_url
+          placeholder="https://blog.example.com/feed"
+          disabled=saving
+        }}
+      </td>
+      <td>
+        {{user-selector
+          single=true
+          allowAny=true
+          includeGroups=false
+          usernames=setting.author_username
+          disabled=saving
+        }}
+      </td>
+      <td>
+        {{d-button
+          icon="times"
+          action="destroy"
+          actionParam=setting
+          disabled=saving
+        }}
+      </td>
+    </tr>
   {{/each}}
 </table>
+
+{{d-button
+  label="admin.wellfed.add_feed"
+  action="create"
+  icon="plus"
+  class="btn-secondary"
+  disabled=saving
+}}
+
+{{d-button
+  label="admin.wellfed.save"
+  action="update"
+  class="btn-primary"
+  disabled=saving
+}}
