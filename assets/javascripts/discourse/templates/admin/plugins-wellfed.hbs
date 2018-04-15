@@ -17,7 +17,6 @@
       <td>
         {{user-selector
           single=true
-          allowAny=true
           includeGroups=false
           usernames=setting.author_username
           disabled=saving
@@ -47,5 +46,5 @@
   label="admin.wellfed.save"
   action="update"
   class="btn-primary"
-  disabled=saving
+  disabled=unsavable
 }}
