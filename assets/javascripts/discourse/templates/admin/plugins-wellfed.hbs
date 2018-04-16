@@ -1,8 +1,16 @@
+<div class="wellfed-feed-settings">
 <table>
   <tr>
-    <th>Feed URL</th>
-    <th>Author</th>
-    <th></th>
+    <th>{{i18n 'admin.wellfed.feed_url'}}</th>
+    <th>{{i18n 'admin.wellfed.author'}}</th>
+    <th>
+      {{d-button
+        icon="save"
+        action="update"
+        class="btn-primary"
+        disabled=unsavable
+      }}
+    </th>
   </tr>
 
   {{#each model as |setting|}}
@@ -32,19 +40,20 @@
       </td>
     </tr>
   {{/each}}
+
+  <tr>
+    <td></td>
+    <td></td>
+    <td>
+      {{d-button
+        action="create"
+        icon="plus"
+        class="btn-secondary"
+        disabled=saving
+      }}
+    </td>
+  </tr>
 </table>
 
-{{d-button
-  label="admin.wellfed.add_feed"
-  action="create"
-  icon="plus"
-  class="btn-secondary"
-  disabled=saving
-}}
-
-{{d-button
-  label="admin.wellfed.save"
-  action="update"
-  class="btn-primary"
-  disabled=unsavable
-}}
+<p>{{i18n 'admin.wellfed.remember_to_add_allowed_hosts'}}</p>
+</div>

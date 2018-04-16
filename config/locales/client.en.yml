@@ -5,5 +5,6 @@ en:
 
     admin:
       wellfed:
-        add_feed: Add Feed
-        save: Save
+        author: Author
+        feed_url: Feed URL
+        remember_to_add_allowed_hosts: Remember to add them as Allowed Hosts in "Customize > Embedding"

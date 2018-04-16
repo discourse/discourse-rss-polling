@@ -1,0 +1,18 @@
+.wellfed-feed-settings {
+  table {
+    tr {
+      td {
+        position: relative;
+
+        &:first-child {
+          width: 80%;
+        }
+
+        input {
+          margin-bottom: 0;
+          width: 95%;
+        }
+      }
+    }
+  }
+}
