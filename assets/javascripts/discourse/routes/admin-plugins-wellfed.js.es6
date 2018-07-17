@@ -1,4 +1,4 @@
-import WellfedFeedSettings from 'discourse/plugins/discourse-wellfed/admin/models/wellfed-feed-settings';
+import WellfedFeedSettings from "discourse/plugins/discourse-wellfed/admin/models/wellfed-feed-settings";
 
 export default Discourse.Route.extend({
   model() {

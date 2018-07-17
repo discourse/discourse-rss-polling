@@ -1,7 +1,7 @@
 export default {
-  resource: 'admin.adminPlugins',
-  path: '/plugins',
+  resource: "admin.adminPlugins",
+  path: "/plugins",
   map() {
-    this.route('wellfed');
+    this.route("wellfed");
   }
 };
