@@ -1,19 +1,12 @@
-# https://meta.discourse.org/t/setting-up-plugin-continuous-integration-tests-on-travis-ci/59612
-
 # We want to use the KVM-based system, so require sudo
 sudo: required
 services:
   - docker
 
 before_install:
-  - plugin_name=${PWD##*/} && echo $plugin_name
-  - chmod -R 777 . # This is necessary if your plugin installs gems
+  - git clone https://github.com/discourse/discourse-plugin-ci
+
+install: true # Prevent travis doing bundle install
 
 script:
-  - >
-    docker run
-    -e "COMMIT_HASH=origin/tests-passed"
-    -e "SKIP_CORE=1"
-    -e SINGLE_PLUGIN=$plugin_name
-    -v $(pwd):/var/www/discourse/plugins/$plugin_name
-    discourse/discourse_test:release
+  - discourse-plugin-ci/script.sh
