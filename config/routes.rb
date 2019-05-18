@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 DiscourseWellfed::Engine.routes.draw do
   root 'feed_settings#show'
 

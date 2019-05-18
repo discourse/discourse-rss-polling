@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseWellfed
   class FeedSettingFinder
     def self.by_embed_url(embed_url)

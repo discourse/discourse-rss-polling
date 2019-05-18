@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseWellfed
   class FeedSettingsController < Admin::AdminController
     requires_plugin 'discourse-wellfed'

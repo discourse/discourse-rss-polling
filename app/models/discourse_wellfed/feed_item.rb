@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_dependency 'feed_item_accessor'
 
 module DiscourseWellfed

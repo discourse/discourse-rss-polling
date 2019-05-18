@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # name: discourse-wellfed
 # about: This plugin enables support for importing embedded content from multiple RSS/ATOM feeds
 # version: 0.0.1

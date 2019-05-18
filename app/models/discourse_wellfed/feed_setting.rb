@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DiscourseWellfed
   class FeedSetting
     include ActiveModel::Serialization
