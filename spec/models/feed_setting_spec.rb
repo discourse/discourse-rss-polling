@@ -29,6 +29,7 @@ RSpec.describe DiscourseWellfed::FeedSetting do
     context 'inline: true' do
       it 'polls and the feed and creates the new topics' do
         $redis.del("wellfed-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+        stub_request(:head, feed_url).to_return(status: 200, body: '')
         stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 
         expect { feed_setting.poll(inline: true) }.to change { author.topics.count }

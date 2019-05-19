@@ -11,6 +11,7 @@ RSpec.describe Jobs::DiscourseWellfed::PollFeed do
   describe '#execute' do
     before do
       $redis.del("wellfed-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+      stub_request(:head, feed_url).to_return(status: 200, body: '')
       stub_request(:get, feed_url).to_return(status: 200, body: raw_feed)
     end
 

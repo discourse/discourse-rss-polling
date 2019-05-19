@@ -37,9 +37,11 @@ module Jobs
       end
 
       def fetch_raw_feed
-        raw_feed = ''
-        FinalDestination.new(feed_url, verbose: true).get { |_response, chunk, _uri| raw_feed << chunk }
-        raw_feed
+        final_destination = FinalDestination.new(@feed_url, verbose: true)
+        feed_final_url = final_destination.resolve
+        return nil unless final_destination.status == :resolved
+
+        Excon.new(feed_final_url.to_s).request(method: :get, expects: 200).body
       rescue Excon::Error::HTTPStatus
         nil
       end
