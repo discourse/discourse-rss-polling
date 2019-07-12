@@ -24,7 +24,7 @@ describe DiscourseWellfed::FeedSettingsController do
 
       get :show, format: :json
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.body).to eq(expected_json)
     end
   end
@@ -35,7 +35,7 @@ describe DiscourseWellfed::FeedSettingsController do
         feed_settings: [{ feed_url: 'https://www.newsite.com/feed', author_username: 'system' }]
       }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(SiteSetting.wellfed_feed_setting).to eq([['https://www.newsite.com/feed', 'system']].to_yaml)
     end
   end
