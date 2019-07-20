@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+ <link rel="self" href="http://www.youtube.com/feeds/videos.xml?channel_id=12345"/>
+ <id>yt:channel:12345</id>
+ <yt:channelId>12345</yt:channelId>
+ <title>Discourse</title>
+ <link rel="alternate" href="https://www.youtube.com/channel/Discourse"/>
+ <author>
+  <name>Discourse</name>
+  <uri>https://www.youtube.com/channel/Discourse</uri>
+ </author>
+ <updated>2019-07-18T20:00:02+00:00</updated>
+ <entry>
+  <id>yt:video:54321</id>
+  <yt:videoId>54321</yt:videoId>
+  <yt:channelId>12345</yt:channelId>
+  <title>Media RSS Extension</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=54321"/>
+  <author>
+   <name>Discourse</name>
+   <uri>https://www.youtube.com/channel/Discourse</uri>
+  </author>
+  <published>2019-07-18T20:00:02+00:00</published>
+  <updated>2019-07-18T20:00:02+00:00</updated>
+  <media:group>
+   <media:title>Media RSS Extension</media:title>
+   <media:content url="https://www.youtube.com/v/54321?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+   <media:thumbnail url="https://i4.ytimg.com/vi/54321/hqdefault.jpg" width="480" height="360"/>
+   <media:description>I can parse Media RSS!</media:description>
+   <media:community>
+    <media:starRating count="10" average="5.00" min="1" max="5"/>
+    <media:statistics views="124"/>
+   </media:community>
+  </media:group>
+ </entry>
+</feed>
