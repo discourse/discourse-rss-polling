@@ -3,12 +3,6 @@
 require 'rails_helper'
 require 'rss_extension/media'
 
-WELLFED_FILE_FIXTURE_PATH = "#{Rails.root}/plugins/discourse-wellfed/spec/fixtures/files/"
-
-def wellfed_file_fixture(fixture_name)
-  Pathname.new(File.join(WELLFED_FILE_FIXTURE_PATH, fixture_name))
-end
-
 RSpec.describe RSSExtension::Media do
   it 'parses Atom feed with Media RSS extension' do
     raw_feed = wellfed_file_fixture('media-rss.atom').read
