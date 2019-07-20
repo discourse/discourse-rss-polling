@@ -1,4 +1,4 @@
-# Discourse Wellfed
+# Discourse Wellfed [![Build Status](https://travis-ci.org/xrav3nz/discourse-wellfed.svg?branch=master)](https://travis-ci.org/xrav3nz/discourse-wellfed)
 
 Import RSS feeds from different sources into your Discourse.
 
