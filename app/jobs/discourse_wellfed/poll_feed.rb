@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'rss'
+require 'rss_extension/parser'
+# YouTube RSS feeds use the RSS Media extension
+require 'rss_extension/media'
 
 module Jobs
   module DiscourseWellfed
@@ -21,17 +24,28 @@ module Jobs
       end
 
       def not_polled_recently?
-        $redis.set(feed_key, 1, ex: SiteSetting.wellfed_polling_frequency.minutes - 10.seconds, nx: true)
+        $redis.set(
+          feed_key,
+          1,
+          ex: SiteSetting.wellfed_polling_frequency.minutes - 10.seconds,
+          nx: true,
+        )
       end
 
       def poll_feed
         topics_polled_from_feed.each do |topic|
-          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content)) if topic.content.present?
+          TopicEmbed.import(
+            author,
+            topic.url,
+            topic.title,
+            CGI.unescapeHTML(topic.content)
+          ) if topic.content.present?
         end
       end
 
       def topics_polled_from_feed
-        RSS::Parser.parse(fetch_raw_feed).items.map { |item| ::DiscourseWellfed::FeedItem.new(item) }
+        feed = RSSExtension::Parser.parse(fetch_raw_feed, validate: false)
+        feed.items.map { |item| ::DiscourseWellfed::FeedItem.new(item) }
       rescue RSS::NotWellFormedError, RSS::InvalidRSSError
         []
       end
