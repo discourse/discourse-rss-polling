@@ -9,7 +9,8 @@ load File.expand_path(File.join('..', 'lib', 'discourse_wellfed', 'engine.rb'), 
 
 enabled_site_setting :wellfed_enabled
 add_admin_route 'wellfed.title', 'wellfed'
-register_asset "stylesheets/wellfed.scss"
+register_asset 'stylesheets/wellfed.scss'
+register_svg_icon 'save' if respond_to?(:register_svg_icon)
 
 Discourse::Application.routes.append do
   mount ::DiscourseWellfed::Engine, at: '/admin/plugins/wellfed'
