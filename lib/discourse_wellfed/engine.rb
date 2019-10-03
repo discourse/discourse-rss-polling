@@ -6,7 +6,7 @@ module DiscourseWellfed
     isolate_namespace DiscourseWellfed
 
     config.to_prepare do
-      Dir[File.expand_path(File.join('..', '..', '..', 'app', 'jobs', 'discourse_wellfed', '*.rb'), __FILE__)].each do |job|
+      Dir[File.expand_path(File.join('..', '..', '..', 'app', 'jobs', '**', '*.rb'), __FILE__)].each do |job|
         require_dependency job
       end
     end
