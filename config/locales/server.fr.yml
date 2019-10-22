@@ -1,0 +1,3 @@
+fr:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Fréquence de rafraichissement du flux (en minutes)'

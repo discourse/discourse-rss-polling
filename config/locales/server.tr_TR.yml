@@ -1,0 +1,3 @@
+tr_TR:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Besleme yoklama sıklığı (dakika cinsinden)'

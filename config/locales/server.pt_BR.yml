@@ -1,0 +1,3 @@
+pt_BR:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Frequência de pesquisa de feeds (em minutos)'

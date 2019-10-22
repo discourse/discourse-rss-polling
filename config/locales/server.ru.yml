@@ -1,0 +1,3 @@
+ru:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Частота опроса ленты (в минутах)'

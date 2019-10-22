@@ -1,0 +1,3 @@
+cs:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Frekvece feed pollingu (v minutách)'

@@ -1,0 +1,3 @@
+pl_PL:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Częstotliwość aktualizacji strony (w minutach)'

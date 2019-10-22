@@ -1,0 +1,3 @@
+ko:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] 피드 폴링 빈도(분당)'

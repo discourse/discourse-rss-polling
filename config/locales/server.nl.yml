@@ -1,0 +1,3 @@
+nl:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Hoe vaak feed verversen (in minuten)'

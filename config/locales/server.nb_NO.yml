@@ -1,0 +1,3 @@
+nb_NO:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Frekvens for strømspørring (i minutter)'

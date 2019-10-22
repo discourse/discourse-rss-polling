@@ -1,0 +1,3 @@
+fi:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Syötteen kyselyn taajuus (minuutteina)'

@@ -1,0 +1,3 @@
+hy:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Լրահոսի հարցման հաճախականությունը (րոպեներով)'

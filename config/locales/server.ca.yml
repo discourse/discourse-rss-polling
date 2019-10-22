@@ -1,0 +1,3 @@
+ca:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] Freqüència del mostratge del canal (en minuts)'

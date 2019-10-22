@@ -1,0 +1,3 @@
+zh_CN:
+  site_settings:
+    wellfed_polling_frequency: '[Wellfed] 消息轮询频率（分钟）'
