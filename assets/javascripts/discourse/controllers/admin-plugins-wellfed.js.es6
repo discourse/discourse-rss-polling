@@ -40,6 +40,7 @@ export default Ember.Controller.extend({
 
     destroy(feedSetting) {
       this.get("feedSettings").removeObject(feedSetting);
+      this.send("update");
     },
 
     update() {

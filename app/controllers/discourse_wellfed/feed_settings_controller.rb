@@ -10,7 +10,7 @@ module DiscourseWellfed
 
     def update
       # TODO: validator? separate persister?
-      new_feed_settings = (update_params.presence || []).map do |feed_setting|
+      new_feed_settings = (feed_setting_params.presence || []).map do |feed_setting|
         feed_setting.values_at(:feed_url, :author_username)
       end
 
@@ -21,7 +21,7 @@ module DiscourseWellfed
 
     private
 
-    def update_params
+    def feed_setting_params
       params.require(:feed_settings)
     end
   end
