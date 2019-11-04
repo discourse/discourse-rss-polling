@@ -1,4 +1,4 @@
-# Discourse Wellfed [![Build Status](https://travis-ci.org/discourse/discourse-rss-polling.svg?branch=master)](https://travis-ci.org/discourse/discourse-rss-polling)
+# Discourse RSS Polling [![Build Status](https://travis-ci.org/discourse/discourse-rss-polling.svg?branch=master)](https://travis-ci.org/discourse/discourse-rss-polling)
 
 Import RSS feeds from different sources into your Discourse.
 
@@ -10,9 +10,9 @@ Please refer to [Install Plugins in Discourse](https://meta.discourse.org/t/inst
 
 ## Setup
 
-In  `Plugins > Wellfed` , you’ll find the settings for the different feeds. Click on the bottom right plus ( `+` ) icon to add a new feed, and click on the top right disk icon to save the settings.
+In  `Plugins > RSS Polling` , you’ll find the settings for the different feeds. Click on the bottom right plus ( `+` ) icon to add a new feed, and click on the top right disk icon to save the settings.
 
-![wellfed_settings](https://user-images.githubusercontent.com/6376558/61013920-d48a7400-a352-11e9-9a33-d56e13143cea.png)
+![rss_polling_settings](https://user-images.githubusercontent.com/6376558/61013920-d48a7400-a352-11e9-9a33-d56e13143cea.png)
 
 After setting up the feeds from which you want to poll, go to  `Customize > Embedding`  to set them as "Allowed Hosts". Note, you will also set the desired destination category here.
 

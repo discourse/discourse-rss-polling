@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DiscourseWellfed
+module DiscourseRssPolling
   class FeedSettingFinder
     def self.by_embed_url(embed_url)
       host = URI.parse(embed_url).host.sub(/^www\./, '')
@@ -21,7 +21,7 @@ module DiscourseWellfed
     end
 
     def all
-      YAML.load(SiteSetting.wellfed_feed_setting)
+      YAML.load(SiteSetting.rss_polling_feed_setting)
         .select(&@condition)
         .map { |(feed_url, author_username)| FeedSetting.new(feed_url: feed_url, author_username: author_username) }
     end

@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe Jobs::DiscourseWellfed::FixTopicEmbedAuthors do
-  let(:job) { Jobs::DiscourseWellfed::FixTopicEmbedAuthors.new }
+RSpec.describe Jobs::DiscourseRssPolling::FixTopicEmbedAuthors do
+  let(:job) { Jobs::DiscourseRssPolling::FixTopicEmbedAuthors.new }
 
   describe '#execute' do
     before do

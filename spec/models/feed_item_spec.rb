@@ -3,9 +3,9 @@
 require 'rails_helper'
 require 'rss'
 
-RSpec.describe DiscourseWellfed::FeedItem do
+RSpec.describe DiscourseRssPolling::FeedItem do
   RSpec.shared_examples 'correctly parses the feed' do |**expected|
-    let(:feed_item) { DiscourseWellfed::FeedItem.new(raw_feed_item) }
+    let(:feed_item) { DiscourseRssPolling::FeedItem.new(raw_feed_item) }
 
     it { expect(feed_item.content).to eq(expected[:content]) }
     it { expect(feed_item.url).to eq(expected[:url]) }
@@ -47,7 +47,7 @@ RSpec.describe DiscourseWellfed::FeedItem do
   end
 
   context 'ATOM item with summary element' do
-    let(:raw_feed) { wellfed_file_fixture('no_content_only_summary.atom').read }
+    let(:raw_feed) { rss_polling_file_fixture('no_content_only_summary.atom').read }
     let(:feed) { RSS::Parser.parse(raw_feed) }
     let(:raw_feed_item) { feed.entries.first }
 

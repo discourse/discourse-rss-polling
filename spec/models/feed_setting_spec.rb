@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe DiscourseWellfed::FeedSetting do
+RSpec.describe DiscourseRssPolling::FeedSetting do
   let(:feed_url) { 'https://blog.discourse.org/feed/' }
   let(:author) { Fabricate(:user) }
-  let(:feed_setting) { DiscourseWellfed::FeedSetting.new(feed_url: feed_url, author_username: author.username) }
-  let(:poll_feed_job) { Jobs::DiscourseWellfed::PollFeed }
+  let(:feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username) }
+  let(:poll_feed_job) { Jobs::DiscourseRssPolling::PollFeed }
 
   describe '#poll' do
     context 'inline: false' do
@@ -14,7 +14,7 @@ RSpec.describe DiscourseWellfed::FeedSetting do
         SiteSetting.queue_jobs = true
       end
 
-      it 'enqueues a Jobs::DiscourseWellfed::PollFeed job with the correct arguments' do
+      it 'enqueues a Jobs::DiscourseRssPolling::PollFeed job with the correct arguments' do
         Sidekiq::Testing.fake! do
           expect { feed_setting.poll }.to change(poll_feed_job.jobs, :size).by(1)
 
@@ -28,7 +28,7 @@ RSpec.describe DiscourseWellfed::FeedSetting do
 
     context 'inline: true' do
       it 'polls and the feed and creates the new topics' do
-        $redis.del("wellfed-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+        $redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
         stub_request(:head, feed_url).to_return(status: 200, body: '')
         stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 

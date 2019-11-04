@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module DiscourseWellfed
+module DiscourseRssPolling
   class FeedSettingsController < Admin::AdminController
-    requires_plugin 'discourse-wellfed'
+    requires_plugin 'discourse-rss-polling'
 
     def show
       render json: FeedSettingFinder.all
@@ -14,7 +14,7 @@ module DiscourseWellfed
         feed_setting.values_at(:feed_url, :author_username)
       end
 
-      SiteSetting.wellfed_feed_setting = new_feed_settings.to_yaml
+      SiteSetting.rss_polling_feed_setting = new_feed_settings.to_yaml
 
       render json: FeedSettingFinder.all
     end

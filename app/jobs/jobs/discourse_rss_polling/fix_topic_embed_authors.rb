@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jobs
-  module DiscourseWellfed
+  module DiscourseRssPolling
     class FixTopicEmbedAuthors < ::Jobs::Base
       sidekiq_options queue: 'low'
 
