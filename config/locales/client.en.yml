@@ -1,10 +1,10 @@
 en:
   js:
-    wellfed:
-      title: Wellfed
+    rss_polling:
+      title: RSS Polling
 
     admin:
-      wellfed:
+      rss_polling:
         author: Author
         feed_url: Feed URL
         remember_to_add_allowed_hosts: Remember to add them as Allowed Hosts in "Customize > Embedding"

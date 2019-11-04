@@ -3,7 +3,7 @@
 require 'rss'
 
 module Jobs
-  module DiscourseWellfed
+  module DiscourseRssPolling
     class PollFeed < ::Jobs::Base
       def execute(args)
         @feed_url = args[:feed_url]
@@ -17,11 +17,11 @@ module Jobs
       attr_reader :feed_url, :author
 
       def feed_key
-        "wellfed-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}"
+        "rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}"
       end
 
       def not_polled_recently?
-        $redis.set(feed_key, 1, ex: SiteSetting.wellfed_polling_frequency.minutes - 10.seconds, nx: true)
+        $redis.set(feed_key, 1, ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds, nx: true)
       end
 
       def poll_feed
@@ -31,7 +31,7 @@ module Jobs
       end
 
       def topics_polled_from_feed
-        RSS::Parser.parse(fetch_raw_feed).items.map { |item| ::DiscourseWellfed::FeedItem.new(item) }
+        RSS::Parser.parse(fetch_raw_feed).items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) }
       rescue RSS::NotWellFormedError, RSS::InvalidRSSError
         []
       end

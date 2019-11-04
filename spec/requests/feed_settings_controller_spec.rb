@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-describe DiscourseWellfed::FeedSettingsController do
+describe DiscourseRssPolling::FeedSettingsController do
   let!(:admin) { Fabricate(:admin) }
 
   before do
     sign_in(admin)
 
-    SiteSetting.wellfed_enabled = true
-    SiteSetting.wellfed_feed_setting = [
+    SiteSetting.rss_polling_enabled = true
+    SiteSetting.rss_polling_feed_setting = [
       ['https://www.example.com/feed', 'system'],
       ['https://blog.discourse.org/feed/', 'discourse'],
     ].to_yaml
@@ -18,11 +18,11 @@ describe DiscourseWellfed::FeedSettingsController do
   describe '#show' do
     it 'returns the serialized feed settings' do
       expected_json = ActiveModel::ArraySerializer.new(
-        DiscourseWellfed::FeedSettingFinder.all,
+        DiscourseRssPolling::FeedSettingFinder.all,
         root: :feed_settings,
       ).to_json
 
-      get '/admin/plugins/wellfed/feed_settings.json'
+      get '/admin/plugins/rss_polling/feed_settings.json'
 
       expect(response.status).to eq(200)
       expect(response.body).to eq(expected_json)
@@ -30,8 +30,8 @@ describe DiscourseWellfed::FeedSettingsController do
   end
 
   describe '#update' do
-    it 'updates SiteSetting.wellfed_feed_setting' do
-      put '/admin/plugins/wellfed/feed_settings.json', params: {
+    it 'updates SiteSetting.rss_polling_feed_setting' do
+      put '/admin/plugins/rss_polling/feed_settings.json', params: {
         feed_settings: [
           {
             feed_url: 'https://www.newsite.com/feed',
@@ -41,7 +41,7 @@ describe DiscourseWellfed::FeedSettingsController do
       }
 
       expect(response.status).to eq(200)
-      expect(SiteSetting.wellfed_feed_setting).to eq([
+      expect(SiteSetting.rss_polling_feed_setting).to eq([
         ['https://www.newsite.com/feed', 'system']
       ].to_yaml)
     end

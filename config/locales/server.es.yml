@@ -1,3 +1,3 @@
 es:
   site_settings:
-    wellfed_polling_frequency: '[Wellfed] Frecuencia del feed de la encuesta (en minutos)'
+    rss_polling_frequency: '[RSS Polling] Frecuencia del feed de la encuesta (en minutos)'

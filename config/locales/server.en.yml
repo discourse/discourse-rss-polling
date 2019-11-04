@@ -1,4 +1,4 @@
 en:
   site_settings:
-    wellfed_enabled: '[Wellfed] Enable importing embed posts from multiple RSS feeds'
-    wellfed_polling_frequency: '[Wellfed] Feed polling frequency, in minutes'
+    rss_polling_enabled: '[RSS Polling] Enable importing embed posts from multiple RSS feeds'
+    rss_polling_frequency: '[RSS Polling] Feed polling frequency, in minutes'

@@ -1,4 +1,4 @@
-import WellfedFeedSettings from "discourse/plugins/discourse-wellfed/admin/models/wellfed-feed-settings";
+import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 import {
   default as computed,
   observes
@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
     update() {
       this.set("saving", true);
 
-      WellfedFeedSettings.update(this.get("feedSettings"))
+      RssPollingFeedSettings.update(this.get("feedSettings"))
         .then(updatedSettings => {
           this.set("feedSettings", updatedSettings["feed_settings"]);
         })

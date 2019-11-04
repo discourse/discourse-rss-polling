@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DiscourseWellfed
+module DiscourseRssPolling
   class FeedSetting
     include ActiveModel::Serialization
 
@@ -16,9 +16,9 @@ module DiscourseWellfed
 
     def poll(inline: false)
       if inline
-        Jobs::DiscourseWellfed::PollFeed.new.execute(feed_url: feed_url, author_username: author_username)
+        Jobs::DiscourseRssPolling::PollFeed.new.execute(feed_url: feed_url, author_username: author_username)
       else
-        Jobs.enqueue('DiscourseWellfed::PollFeed', feed_url: feed_url, author_username: author_username)
+        Jobs.enqueue('DiscourseRssPolling::PollFeed', feed_url: feed_url, author_username: author_username)
       end
     end
   end
