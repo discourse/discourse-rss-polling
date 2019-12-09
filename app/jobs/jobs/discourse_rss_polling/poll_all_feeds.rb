@@ -18,7 +18,7 @@ module Jobs
       REDIS_KEY = 'rss-polling-feeds-polled'
 
       def not_polled_recently?
-        $redis.set(REDIS_KEY, 1, ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds, nx: true)
+        Discourse.redis.set(REDIS_KEY, 1, ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds, nx: true)
       end
     end
   end
