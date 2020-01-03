@@ -4,6 +4,7 @@
 # about: This plugin enables support for importing embedded content from multiple RSS/ATOM feeds
 # version: 0.0.1
 # authors: xrav3nz
+# url: https://github.com/discourse/discourse-rss-polling
 
 load File.expand_path(File.join('..', 'lib', 'discourse_rss_polling', 'engine.rb'), __FILE__)
 
