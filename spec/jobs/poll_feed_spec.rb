@@ -30,5 +30,10 @@ RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
 
       expect(WebMock).to have_requested(:get, feed_url).once
     end
+
+    it 'is not raising error if http request failed' do
+      stub_request(:get, feed_url).to_raise(Excon::Error::HTTPStatus)
+      job.execute(feed_url: feed_url, author_username: author.username)
+    end
   end
 end

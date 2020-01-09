@@ -31,7 +31,10 @@ module Jobs
       end
 
       def topics_polled_from_feed
-        RSS::Parser.parse(fetch_raw_feed).items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) }
+        raw_feed = fetch_raw_feed
+        return [] if raw_feed.blank?
+
+        RSS::Parser.parse(raw_feed).items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) }
       rescue RSS::NotWellFormedError, RSS::InvalidRSSError
         []
       end
