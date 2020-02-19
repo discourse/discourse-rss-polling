@@ -2,7 +2,7 @@ import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings
 import {
   default as computed,
   observes
-} from "ember-addons/ember-computed-decorators";
+} from "discourse-common/utils/decorators";
 
 export default Ember.Controller.extend({
   feedSettings: Ember.computed.alias("model"),
