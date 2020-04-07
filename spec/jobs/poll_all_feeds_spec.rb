@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
+  SiteSetting.rss_polling_enabled = true
   let(:job) { Jobs::DiscourseRssPolling::PollAllFeeds.new }
 
   describe '#execute' do
@@ -34,6 +35,18 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
       Sidekiq::Testing.fake! do
         expect { job.execute({}) }.to change { Jobs::DiscourseRssPolling::PollFeed.jobs.size }.by(2)
         expect { job.execute({}) }.to_not change { Jobs::DiscourseRssPolling::PollFeed.jobs.size }
+      end
+    end
+
+    context 'When the plugin is disabled' do
+      before do
+        SiteSetting.rss_polling_enabled = false
+      end
+
+      it 'does not queue PollFeed jobs' do
+        Sidekiq::Testing.fake! do
+          expect { job.execute({}) }.to change { Jobs::DiscourseRssPolling::PollFeed.jobs.size }.by(0)
+        end
       end
     end
   end

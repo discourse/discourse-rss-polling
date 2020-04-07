@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
+  SiteSetting.rss_polling_enabled = true
   let(:feed_url) { 'https://blog.discourse.org/feed/' }
   let(:author) { Fabricate(:user) }
   let(:raw_feed) { file_from_fixtures('feed.rss', 'feed') }

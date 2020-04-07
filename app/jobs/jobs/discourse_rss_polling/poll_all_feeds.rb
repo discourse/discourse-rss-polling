@@ -6,6 +6,8 @@ module Jobs
       every 5.minutes
 
       def execute(args)
+        return unless SiteSetting.rss_polling_enabled
+
         poll_all_feeds if not_polled_recently?
       end
 
