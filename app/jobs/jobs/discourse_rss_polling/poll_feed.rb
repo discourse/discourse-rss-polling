@@ -6,6 +6,8 @@ module Jobs
   module DiscourseRssPolling
     class PollFeed < ::Jobs::Base
       def execute(args)
+        return unless SiteSetting.rss_polling_enabled
+
         @feed_url = args[:feed_url]
         @author = User.find_by_username(args[:author_username])
 
