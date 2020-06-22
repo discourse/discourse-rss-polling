@@ -28,7 +28,20 @@ module Jobs
 
       def poll_feed
         topics_polled_from_feed.each do |topic|
-          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content)) if topic.content.present?
+          raw = "#{topic.url}
+
+          "+TopicEmbed.imported_from_html(topic.url)
+
+          category = EmbeddableHost.record_for_url(topic.url).category_id
+          params = {
+            raw: raw,
+            category: category,
+            archetype: 'regular',
+            title: topic.title,
+            topic_id: nil
+          }
+          pm = NewPostManager.new(@author, params)
+          pm.perform
         end
       end
 
