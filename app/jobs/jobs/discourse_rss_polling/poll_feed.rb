@@ -27,7 +27,7 @@ module Jobs
       end
 
       def poll_feed
-        topics_polled_from_feed.each do |topic|
+        topics_polled_from_feed[0].each do |topic|
           raw = "#{topic.url}
 
           "+TopicEmbed.imported_from_html(topic.url)
@@ -37,8 +37,9 @@ module Jobs
             raw: raw,
             category: category,
             archetype: 'regular',
-            title: topic.title,
-            topic_id: nil
+            title: "#{topic.title() +' - '+ topics_polled_from_feed[1]}",
+            topic_id: nil,
+            featured_link: topic.url
           }
           pm = NewPostManager.new(@author, params)
           pm.perform
@@ -48,8 +49,8 @@ module Jobs
       def topics_polled_from_feed
         raw_feed = fetch_raw_feed
         return [] if raw_feed.blank?
-
-        RSS::Parser.parse(raw_feed).items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) }
+        parsed_feed = RSS::Parser.parse(raw_feed)
+        return parsed_feed.items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) } , parsed_feed.channel.title
       rescue RSS::NotWellFormedError, RSS::InvalidRSSError
         []
       end
