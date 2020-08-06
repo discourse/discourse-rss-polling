@@ -23,7 +23,8 @@ module DiscourseRssPolling
     end
 
     def title
-      @accessor.element_content(:title)&.force_encoding('UTF-8')&.scrub
+      unclean_title = @accessor.element_content(:title)&.force_encoding('UTF-8')&.scrub
+      TextCleaner.clean_title(TextSentinel.title_sentinel(unclean_title).text)
     end
 
     private
