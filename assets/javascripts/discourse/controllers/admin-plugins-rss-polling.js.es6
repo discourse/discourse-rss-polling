@@ -1,7 +1,7 @@
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 import {
   default as computed,
-  observes
+  observes,
 } from "discourse-common/utils/decorators";
 
 export default Ember.Controller.extend({
@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
   validate() {
     let overallVaildity = true;
 
-    this.get("feedSettings").forEach(feedSetting => {
+    this.get("feedSettings").forEach((feedSetting) => {
       const localValidity =
         !Ember.isBlank(feedSetting.feed_url) &&
         !Ember.isBlank(feedSetting.author_username);
@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
     create() {
       this.get("feedSettings").addObject({
         feed_url: null,
-        author_username: null
+        author_username: null,
       });
     },
 
@@ -47,12 +47,12 @@ export default Ember.Controller.extend({
       this.set("saving", true);
 
       RssPollingFeedSettings.update(this.get("feedSettings"))
-        .then(updatedSettings => {
+        .then((updatedSettings) => {
           this.set("feedSettings", updatedSettings["feed_settings"]);
         })
         .finally(() => {
           this.set("saving", false);
         });
-    }
-  }
+    },
+  },
 });

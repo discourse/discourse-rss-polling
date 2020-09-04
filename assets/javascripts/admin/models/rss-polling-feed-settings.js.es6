@@ -10,7 +10,7 @@ export default {
       type: "PUT",
       contentType: "application/json",
       processData: false,
-      data: JSON.stringify({ feed_settings: feedSettings })
+      data: JSON.stringify({ feed_settings: feedSettings }),
     });
-  }
+  },
 };
