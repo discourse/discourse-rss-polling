@@ -30,7 +30,7 @@ module Jobs
         topics_polled_from_feed[0].each do |topic|
           raw = "#{topic.url}
 
-          "+TopicEmbed.imported_from_html(topic.url)
+          "
 
           category = EmbeddableHost.record_for_url(topic.url).category_id
           params = {
@@ -39,7 +39,8 @@ module Jobs
             archetype: 'regular',
             title: "#{topic.title() +' - '+ topics_polled_from_feed[1]}",
             topic_id: nil,
-            featured_link: topic.url
+            featured_link: topic.url,
+            created_at: topic.created_at
           }
           pm = NewPostManager.new(@author, params)
           pm.perform

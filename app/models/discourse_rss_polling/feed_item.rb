@@ -26,6 +26,10 @@ module DiscourseRssPolling
       @accessor.element_content(:title)&.force_encoding('UTF-8')&.scrub
     end
 
+    def created_at
+      @accessor.element_content(:pubDate)
+    end
+
     private
 
     # The tag name's relative order implies its priority.
