@@ -5,9 +5,11 @@
         position: relative;
 
         &:first-child {
-          width: 80%;
+          width: 70%;
         }
-
+        > .rss-date-input {
+          width: 120px;
+        }
         input {
           margin-bottom: 0;
           width: 95%;

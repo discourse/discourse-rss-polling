@@ -7,4 +7,5 @@ en:
       rss_polling:
         author: Author
         feed_url: Feed URL
+        start_date: Start Date
         remember_to_add_allowed_hosts: To set the Discourse category that your feed will be published to, add the domain of the feed's link attributes to the Allowed Hosts section of your Admin / Customize / Embedding page.

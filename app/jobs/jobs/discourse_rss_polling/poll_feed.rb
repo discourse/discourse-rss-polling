@@ -10,7 +10,7 @@ module Jobs
 
         @feed_url = args[:feed_url]
         @author = User.find_by_username(args[:author_username])
-
+        @start_date = args[:start_date]
         poll_feed if not_polled_recently?
       end
 
@@ -28,11 +28,13 @@ module Jobs
 
       def poll_feed
         topics_polled_from_feed[0].each do |topic|
+          next if Date.parse(@start_date) > topic.created_at
           raw = "#{topic.url}
 
           "
 
           category = EmbeddableHost.record_for_url(topic.url).category_id
+
           params = {
             raw: raw,
             category: category,

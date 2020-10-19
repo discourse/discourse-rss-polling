@@ -15,7 +15,7 @@ export default Ember.Controller.extend({
   },
 
   // TODO: extract feed setting into its own component && more validation
-  @observes("feedSettings.@each.{feed_url,author_username}")
+  @observes("feedSettings.@each.{feed_url,author_username,start_date}")
   validate() {
     let overallVaildity = true;
 

@@ -3,6 +3,7 @@
   <tr>
     <th>{{i18n 'admin.rss_polling.feed_url'}}</th>
     <th>{{i18n 'admin.rss_polling.author'}}</th>
+    <th>{{i18n 'admin.rss_polling.start_date'}}</th>
     <th>
       {{d-button
         icon="save"
@@ -31,6 +32,9 @@
         }}
       </td>
       <td>
+        {{date-picker class="rss-date-input" defaultDate="YYYY-MM-DD" value=setting.start_date }}
+      </td>
+      <td>
         {{d-button
           icon="times"
           action="destroy"
@@ -44,6 +48,7 @@
   <tr>
     <td></td>
     <td></td>
+     <td></td>
     <td>
       {{d-button
         action="create"
