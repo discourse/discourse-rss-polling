@@ -34,6 +34,19 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
+  context 'escaped title' do
+    let(:raw_feed) { rss_polling_file_fixture('escaped_html.atom').read }
+    let(:feed) { RSS::Parser.parse(raw_feed) }
+    let(:raw_feed_item) { feed.entries.first }
+
+    include_examples(
+      'correctly parses the feed',
+      content: 'Here are some random descriptions...',
+      url: 'https://blog.discourse.org/2017/09/poll-feed-spec-fixture/',
+      title: 'Wellington: “Progress is hard!” Other cities: “Hold my beer”',
+    )
+  end
+
   context 'ATOM item with content element' do
     let(:feed) { RSS::Parser.parse(file_from_fixtures('feed.atom', 'feed')) }
     let(:raw_feed_item) { feed.entries.first }

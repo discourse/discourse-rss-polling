@@ -24,7 +24,8 @@ module DiscourseRssPolling
 
     def title
       unclean_title = @accessor.element_content(:title)&.force_encoding('UTF-8')&.scrub
-      TextCleaner.clean_title(TextSentinel.title_sentinel(unclean_title).text).presence
+      unclean_title = TextCleaner.clean_title(TextSentinel.title_sentinel(unclean_title).text).presence
+      CGI::unescapeHTML(unclean_title) if unclean_title
     end
 
     private
