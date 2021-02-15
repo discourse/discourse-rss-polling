@@ -1,4 +1,6 @@
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
+import { set } from "@ember/object";
+
 import {
   default as computed,
   observes,
@@ -53,6 +55,10 @@ export default Ember.Controller.extend({
         .finally(() => {
           this.set("saving", false);
         });
+    },
+
+    updateAuthorUsername(setting, selected) {
+      set(setting, "author_username", selected.firstObject);
     },
   },
 });
