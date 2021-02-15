@@ -23,11 +23,13 @@
         }}
       </td>
       <td>
-        {{user-selector
-          single=true
-          includeGroups=false
-          usernames=setting.author_username
+        {{email-group-user-chooser
+          value=setting.author_username
           disabled=saving
+          onChange=(action "updateAuthorUsername" setting)
+          options=(hash
+            maximum=1
+          )
         }}
       </td>
       <td>
