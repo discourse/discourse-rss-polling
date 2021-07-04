@@ -1,61 +1,67 @@
 <div class="rss-polling-feed-settings">
-<table>
-  <tr>
-    <th>{{i18n 'admin.rss_polling.feed_url'}}</th>
-    <th>{{i18n 'admin.rss_polling.author'}}</th>
-    <th>
-      {{d-button
-        icon="save"
-        action="update"
-        class="btn-primary"
-        disabled=unsavable
-      }}
-    </th>
-  </tr>
+  <table>
+    <thead>
+      <tr>
+        <th>{{i18n "admin.rss_polling.feed_url"}}</th>
+        <th>{{i18n "admin.rss_polling.author"}}</th>
+        <th>
+          {{d-button
+            icon="save"
+            action="update"
+            class="btn-primary"
+            disabled=unsavable
+          }}
+        </th>
+      </tr>
+    </thead>
 
-  {{#each model as |setting|}}
-    <tr>
-      <td>
-        {{input
-          value=setting.feed_url
-          placeholder="https://blog.example.com/feed"
-          disabled=saving
-        }}
-      </td>
-      <td>
-        {{email-group-user-chooser
-          value=setting.author_username
-          disabled=saving
-          onChange=(action "updateAuthorUsername" setting)
-          options=(hash
-            maximum=1
-          )
-        }}
-      </td>
-      <td>
-        {{d-button
-          icon="times"
-          action="destroy"
-          actionParam=setting
-          disabled=saving
-        }}
-      </td>
-    </tr>
-  {{/each}}
+    <tbody>
+      {{#each model as |setting|}}
+        <tr>
+          <td>
+            {{input
+              value=setting.feed_url
+              placeholder="https://blog.example.com/feed"
+              disabled=saving
+            }}
+          </td>
+          <td>
+            {{email-group-user-chooser
+              value=setting.author_username
+              disabled=saving
+              onChange=(action "updateAuthorUsername" setting)
+              options=(hash
+                maximum=1
+              )
+            }}
+          </td>
+          <td>
+            {{d-button
+              icon="times"
+              action="destroy"
+              actionParam=setting
+              disabled=saving
+            }}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
 
-  <tr>
-    <td></td>
-    <td></td>
-    <td>
-      {{d-button
-        action="create"
-        icon="plus"
-        class="btn-secondary"
-        disabled=saving
-      }}
-    </td>
-  </tr>
-</table>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>
+          {{d-button
+            action="create"
+            icon="plus"
+            class="btn-secondary"
+            disabled=saving
+          }}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 
-<p>{{i18n 'admin.rss_polling.remember_to_add_allowed_hosts'}}</p>
+  <p>{{i18n "admin.rss_polling.remember_to_add_allowed_hosts"}}</p>
 </div>
