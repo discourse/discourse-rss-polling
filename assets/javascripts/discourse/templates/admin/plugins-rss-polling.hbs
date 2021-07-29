@@ -4,6 +4,7 @@
       <tr>
         <th>{{i18n "admin.rss_polling.feed_url"}}</th>
         <th>{{i18n "admin.rss_polling.author"}}</th>
+        <th>{{i18n "admin.rss_polling.feed_category_filter"}}</th>
         <th>
           {{d-button
             icon="save"
@@ -36,6 +37,13 @@
             }}
           </td>
           <td>
+            {{input
+              value=setting.feed_category_filter
+              placeholder="updates"
+              disabled=saving
+            }}
+          </td>
+          <td>
             {{d-button
               icon="times"
               action="destroy"
@@ -49,6 +57,7 @@
 
     <tfoot>
       <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td>

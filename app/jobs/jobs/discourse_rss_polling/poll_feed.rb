@@ -10,13 +10,14 @@ module Jobs
 
         @feed_url = args[:feed_url]
         @author = User.find_by_username(args[:author_username])
+        @feed_category_filter = args[:feed_category_filter]
 
         poll_feed if not_polled_recently?
       end
 
       private
 
-      attr_reader :feed_url, :author
+      attr_reader :feed_url, :author, :feed_category_filter
 
       def feed_key
         "rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}"
@@ -28,15 +29,18 @@ module Jobs
 
       def poll_feed
         topics_polled_from_feed.each do |topic|
-          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content)) if topic.content.present?
+
+          next if !topic.content.present?
+          next if (feed_category_filter.present? && !topic.categories.include?(feed_category_filter))
+
+          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content))
         end
       end
 
       def topics_polled_from_feed
         raw_feed = fetch_raw_feed
         return [] if raw_feed.blank?
-
-        RSS::Parser.parse(raw_feed).items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) }
+        RSS::Parser.parse(raw_feed, false).items.map { |item| ::DiscourseRssPolling::FeedItem.new(item) }
       rescue RSS::NotWellFormedError, RSS::InvalidRSSError
         []
       end
