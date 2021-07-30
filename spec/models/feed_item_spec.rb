@@ -85,4 +85,30 @@ RSpec.describe DiscourseRssPolling::FeedItem do
       categories: ['spec', 'xrav3nz diary']
     )
   end
+
+  context 'Youtube playlist' do
+    let(:raw_feed) { rss_polling_file_fixture('youtube_playlist.xml').read }
+    let(:feed) { RSS::Parser.parse(raw_feed, false) }
+    let(:raw_feed_item) { feed.entries.first }
+
+    include_examples(
+      'correctly parses the feed',
+      content: "<div><iframe width=\"690\" height=\"388\" src=\"https://www.youtube.com/embed/K56soYl0U1w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>\n",
+      url: 'https://www.youtube.com/watch?v=K56soYl0U1w',
+      title: 'The Ramones - Blitzkrieg Bop (With Lyrics)'
+    )
+  end
+
+  context 'Youtube channel' do
+    let(:raw_feed) { rss_polling_file_fixture('youtube_channel.xml').read }
+    let(:feed) { RSS::Parser.parse(raw_feed, false) }
+    let(:raw_feed_item) { feed.entries.first }
+
+    include_examples(
+      'correctly parses the feed',
+      content: "<div><iframe width=\"690\" height=\"388\" src=\"https://www.youtube.com/embed/peYYl2vrIt4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>\n",
+      url: 'https://www.youtube.com/watch?v=peYYl2vrIt4',
+      title: 'An Uncontroversial Opinion – AMD RX 6600 XT Announcement'
+    )
+  end
 end
