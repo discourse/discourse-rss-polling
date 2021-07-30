@@ -71,4 +71,18 @@ RSpec.describe DiscourseRssPolling::FeedItem do
       title: 'Poll Feed Spec Fixture',
     )
   end
+
+  context 'ATOM items with categories elements' do
+    let(:raw_feed) { rss_polling_file_fixture('multiple_categories.atom').read }
+    let(:feed) { RSS::Parser.parse(raw_feed, false) }
+    let(:raw_feed_item) { feed.entries.first }
+
+    include_examples(
+      'correctly parses the feed',
+      content: 'Here are some random descriptions...',
+      url: 'https://blog.discourse.org/2017/09/poll-feed-spec-fixture/',
+      title: 'Poll Feed Spec Fixture',
+      categories: ['spec', 'xrav3nz diary']
+    )
+  end
 end

@@ -19,17 +19,17 @@ export default Ember.Controller.extend({
   // TODO: extract feed setting into its own component && more validation
   @observes("feedSettings.@each.{feed_url,author_username}")
   validate() {
-    let overallVaildity = true;
+    let overallValidity = true;
 
     this.get("feedSettings").forEach((feedSetting) => {
       const localValidity =
         !Ember.isBlank(feedSetting.feed_url) &&
         !Ember.isBlank(feedSetting.author_username);
       Ember.set(feedSetting, "valid", localValidity);
-      overallVaildity = overallVaildity && localValidity;
+      overallValidity = overallValidity && localValidity;
     });
 
-    this.set("valid", overallVaildity);
+    this.set("valid", overallValidity);
   },
 
   actions: {
@@ -37,6 +37,7 @@ export default Ember.Controller.extend({
       this.get("feedSettings").addObject({
         feed_url: null,
         author_username: null,
+        feed_category_filter: null,
       });
     },
 

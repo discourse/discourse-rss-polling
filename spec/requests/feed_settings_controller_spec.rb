@@ -11,7 +11,7 @@ describe DiscourseRssPolling::FeedSettingsController do
     SiteSetting.rss_polling_enabled = true
     SiteSetting.rss_polling_feed_setting = [
       ['https://www.example.com/feed', 'system'],
-      ['https://blog.discourse.org/feed/', 'discourse'],
+      ['https://blog.discourse.org/feed/', 'discourse', 'updates'],
     ].to_yaml
   end
 
@@ -35,14 +35,15 @@ describe DiscourseRssPolling::FeedSettingsController do
         feed_settings: [
           {
             feed_url: 'https://www.newsite.com/feed',
-            author_username: 'system'
+            author_username: 'system',
+            feed_category_filter: 'updates'
           }
         ]
       }
 
       expect(response.status).to eq(200)
       expect(SiteSetting.rss_polling_feed_setting).to eq([
-        ['https://www.newsite.com/feed', 'system']
+        ['https://www.newsite.com/feed', 'system', 'updates']
       ].to_yaml)
     end
   end

@@ -28,6 +28,10 @@ module DiscourseRssPolling
       CGI::unescapeHTML(unclean_title) if unclean_title
     end
 
+    def categories
+      @accessor.element_content(:categories).map { |c| c.content }
+    end
+
     private
 
     # The tag name's relative order implies its priority.

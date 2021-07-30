@@ -4,13 +4,14 @@
       td {
         position: relative;
 
-        &:first-child {
-          width: 80%;
+        &:first-child input {
+          width: 400px;
         }
-
+        .user-chooser {
+          width: 150px;
+        }
         input {
           margin-bottom: 0;
-          width: 95%;
         }
       }
     }

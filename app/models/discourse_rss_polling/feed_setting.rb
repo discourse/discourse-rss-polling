@@ -7,18 +7,20 @@ module DiscourseRssPolling
     attr_accessor(
       :feed_url,
       :author_username,
+      :feed_category_filter,
     )
 
-    def initialize(feed_url:, author_username:)
+    def initialize(feed_url:, author_username:, feed_category_filter:)
       @feed_url = feed_url
       @author_username = author_username
+      @feed_category_filter = feed_category_filter
     end
 
     def poll(inline: false)
       if inline
-        Jobs::DiscourseRssPolling::PollFeed.new.execute(feed_url: feed_url, author_username: author_username)
+        Jobs::DiscourseRssPolling::PollFeed.new.execute(feed_url: feed_url, author_username: author_username, feed_category_filter: feed_category_filter)
       else
-        Jobs.enqueue('DiscourseRssPolling::PollFeed', feed_url: feed_url, author_username: author_username)
+        Jobs.enqueue('DiscourseRssPolling::PollFeed', feed_url: feed_url, author_username: author_username, feed_category_filter: feed_category_filter)
       end
     end
   end

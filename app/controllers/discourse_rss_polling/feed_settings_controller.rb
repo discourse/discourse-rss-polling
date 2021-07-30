@@ -14,7 +14,7 @@ module DiscourseRssPolling
         new_feed_settings = []
       else
         new_feed_settings = (feed_setting_params.presence || []).map do |feed_setting|
-          feed_setting.values_at(:feed_url, :author_username)
+          feed_setting.values_at(:feed_url, :author_username, :feed_category_filter)
         end
       end
 
