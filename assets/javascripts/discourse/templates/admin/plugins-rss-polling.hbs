@@ -4,6 +4,7 @@
       <tr>
         <th>{{i18n "admin.rss_polling.feed_url"}}</th>
         <th>{{i18n "admin.rss_polling.author"}}</th>
+        <th>{{i18n "admin.rss_polling.discourse_category"}}</th>
         <th>{{i18n "admin.rss_polling.feed_category_filter"}}</th>
         <th>
           {{d-button
@@ -37,6 +38,13 @@
             }}
           </td>
           <td>
+            {{category-chooser
+              value=setting.discourse_category_id
+              class="small"
+              onChange=(action (mut setting.discourse_category_id))
+            }}
+          </td>
+          <td>
             {{input
               value=setting.feed_category_filter
               placeholder="updates"
@@ -60,6 +68,7 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
         <td>
           {{d-button
             action="create"
@@ -72,5 +81,5 @@
     </tfoot>
   </table>
 
-  <p>{{i18n "admin.rss_polling.remember_to_add_allowed_hosts"}}</p>
+  <p><a href="https://meta.discourse.org/t/configure-the-discourse-rss-polling-plugin/156387">{{i18n "admin.rss_polling.documentation"}}</a></p>
 </div>

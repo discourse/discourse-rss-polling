@@ -37,6 +37,7 @@ export default Ember.Controller.extend({
       this.get("feedSettings").addObject({
         feed_url: null,
         author_username: null,
+        discourse_category_id: null,
         feed_category_filter: null,
       });
     },
