@@ -6,9 +6,10 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
   SiteSetting.rss_polling_enabled = true
   let(:feed_url) { 'https://blog.discourse.org/feed/' }
   let(:author) { Fabricate(:user) }
+  let(:category) { Fabricate(:category) }
   let(:feed_category_filter) { 'spec' }
-  let(:feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, feed_category_filter: feed_category_filter) }
-  let(:wrong_feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, feed_category_filter: 'non existing category') }
+  let(:feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, feed_category_filter: feed_category_filter) }
+  let(:wrong_feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, feed_category_filter: 'non existing category') }
   let(:poll_feed_job) { Jobs::DiscourseRssPolling::PollFeed }
 
   describe '#poll' do
@@ -43,6 +44,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
         expect(topic.title).to eq('Poll Feed Spec Fixture')
         expect(topic.first_post.raw).to include('<p>This is the body &amp; content. </p>')
         expect(topic.topic_embed.embed_url).to eq('https://blog.discourse.org/2017/09/poll-feed-spec-fixture')
+        expect(topic.category).to eq(category)
       end
 
       it 'polls and the feed and does not create the new topics because of the category filter' do
