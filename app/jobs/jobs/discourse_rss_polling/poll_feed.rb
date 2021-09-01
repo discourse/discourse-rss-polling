@@ -34,7 +34,7 @@ module Jobs
           next if !topic.content.present?
           next if (feed_category_filter.present? && !topic.categories.include?(feed_category_filter))
 
-          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content), category_id: discourse_category_id)
+          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content), category_id: discourse_category_id, cook_method: topic.is_youtube? ? Post.cook_methods[:regular] : nil)
         end
       end
 
