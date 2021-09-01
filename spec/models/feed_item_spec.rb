@@ -93,7 +93,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
 
     include_examples(
       'correctly parses the feed',
-      content: "<div><iframe width=\"690\" height=\"388\" src=\"https://www.youtube.com/embed/K56soYl0U1w\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>\n",
+      content: 'https://www.youtube.com/watch?v=K56soYl0U1w',
       url: 'https://www.youtube.com/watch?v=K56soYl0U1w',
       title: 'The Ramones - Blitzkrieg Bop (With Lyrics)'
     )
@@ -106,7 +106,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
 
     include_examples(
       'correctly parses the feed',
-      content: "<div><iframe width=\"690\" height=\"388\" src=\"https://www.youtube.com/embed/peYYl2vrIt4\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></div>\n",
+      content: 'https://www.youtube.com/watch?v=peYYl2vrIt4',
       url: 'https://www.youtube.com/watch?v=peYYl2vrIt4',
       title: 'An Uncontroversial Opinion – AMD RX 6600 XT Announcement'
     )
