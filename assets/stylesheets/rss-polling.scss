@@ -5,7 +5,10 @@
         position: relative;
 
         &:first-child input {
-          max-width: 250px;
+          max-width: 200px;
+        }
+        &:nth-child(2) input {
+          max-width: 100px;
         }
         .user-chooser,
         .category-chooser {
@@ -13,6 +16,9 @@
         }
         input {
           margin-bottom: 0;
+        }
+        .select-kit.multi-select {
+          width: 120px;
         }
       }
     }

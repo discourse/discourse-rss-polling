@@ -5,8 +5,11 @@ en:
 
     admin:
       rss_polling:
+        feed: Feed Settings
+        discourse: Discourse Settings
         author: Author
-        feed_url: Feed URL
-        discourse_category: Discourse Category
-        feed_category_filter: Feed Category Filter
+        feed_url: URL
+        discourse_category: Category
+        discourse_tags: Tags
+        feed_category_filter: Category Filter
         documentation: RSS Polling configuration documentation
