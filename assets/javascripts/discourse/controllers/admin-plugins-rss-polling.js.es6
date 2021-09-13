@@ -38,6 +38,7 @@ export default Ember.Controller.extend({
         feed_url: null,
         author_username: null,
         discourse_category_id: null,
+        discourse_tags: null,
         feed_category_filter: null,
       });
     },

@@ -7,9 +7,10 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
   let(:feed_url) { 'https://blog.discourse.org/feed/' }
   let(:author) { Fabricate(:user) }
   let(:category) { Fabricate(:category) }
+  let(:tag) { Fabricate(:tag) }
   let(:feed_category_filter) { 'spec' }
-  let(:feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, feed_category_filter: feed_category_filter) }
-  let(:wrong_feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, feed_category_filter: 'non existing category') }
+  let(:feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, discourse_tags: [tag.name], feed_category_filter: feed_category_filter) }
+  let(:wrong_feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, discourse_tags: [tag.name], feed_category_filter: 'non existing category') }
   let(:poll_feed_job) { Jobs::DiscourseRssPolling::PollFeed }
 
   describe '#poll' do
@@ -26,12 +27,18 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
 
           expect(enqueued_job['args'][0]['feed_url']).to eq(feed_url)
           expect(enqueued_job['args'][0]['author_username']).to eq(author.username)
+          expect(enqueued_job['args'][0]['discourse_category_id']).to eq(category.id)
+          expect(enqueued_job['args'][0]['discourse_tags']).to eq([tag.name])
           expect(enqueued_job['args'][0]['feed_category_filter']).to eq(feed_category_filter)
         end
       end
     end
 
     context 'inline: true' do
+      before do
+        SiteSetting.tagging_enabled = true
+      end
+
       it 'polls and the feed and creates the new topics' do
         $redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
         stub_request(:head, feed_url).to_return(status: 200, body: '')
@@ -45,6 +52,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
         expect(topic.first_post.raw).to include('<p>This is the body &amp; content. </p>')
         expect(topic.topic_embed.embed_url).to eq('https://blog.discourse.org/2017/09/poll-feed-spec-fixture')
         expect(topic.category).to eq(category)
+        expect(topic.tags.first.name).to eq(tag.name)
       end
 
       it 'polls and the feed and does not create the new topics because of the category filter' do
