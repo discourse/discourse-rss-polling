@@ -31,9 +31,8 @@ module Jobs
 
       def poll_feed
         topics_polled_from_feed.each do |topic|
-
           next if !topic.content.present?
-          next if (feed_category_filter.present? && !topic.categories.include?(feed_category_filter))
+          next if (feed_category_filter.present? && topic.categories.none? { |c| c.include?(feed_category_filter) })
 
           TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content), category_id: discourse_category_id, tags: discourse_tags, cook_method: topic.is_youtube? ? Post.cook_methods[:regular] : nil)
         end
