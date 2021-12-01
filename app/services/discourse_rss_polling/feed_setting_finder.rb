@@ -21,9 +21,15 @@ module DiscourseRssPolling
     end
 
     def all
-      YAML.load(SiteSetting.rss_polling_feed_setting)
-        .select(&@condition)
-        .map { |(feed_url, author_username, discourse_category_id, discourse_tags, feed_category_filter)| FeedSetting.new(feed_url: feed_url, author_username: author_username, discourse_category_id: discourse_category_id, discourse_tags: discourse_tags, feed_category_filter: feed_category_filter) }
+      YAML.safe_load(SiteSetting.rss_polling_feed_setting).select(&@condition).map do |(feed_url, author_username, discourse_category_id, discourse_tags, feed_category_filter)|
+        FeedSetting.new(
+          feed_url: feed_url,
+          author_username: author_username,
+          discourse_category_id: discourse_category_id,
+          discourse_tags: discourse_tags,
+          feed_category_filter: feed_category_filter
+        )
+      end
     end
 
     def take
