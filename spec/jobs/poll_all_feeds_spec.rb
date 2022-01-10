@@ -14,7 +14,7 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
       ].to_yaml
 
       SiteSetting.queue_jobs = true
-      $redis.del('rss-polling-feeds-polled')
+      Discourse.redis.del('rss-polling-feeds-polled')
     end
 
     it 'queues correct PollFeed jobs' do

@@ -40,7 +40,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
       end
 
       it 'polls and the feed and creates the new topics' do
-        $redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+        Discourse.redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
         stub_request(:head, feed_url).to_return(status: 200, body: '')
         stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 
@@ -56,7 +56,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
       end
 
       it 'polls and the feed and does not create the new topics because of the category filter' do
-        $redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+        Discourse.redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
         stub_request(:head, feed_url).to_return(status: 200, body: '')
         stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 
