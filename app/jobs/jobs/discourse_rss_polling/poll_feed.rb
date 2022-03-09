@@ -9,7 +9,7 @@ module Jobs
         return unless SiteSetting.rss_polling_enabled
 
         @feed_url = args[:feed_url]
-        @author = User.find_by_username(args[:author_username])
+        @author = User.find_by_username!(args[:author_username])
         @discourse_category_id = args[:discourse_category_id]
         @discourse_tags = args[:discourse_tags]
         @feed_category_filter = args[:feed_category_filter]
