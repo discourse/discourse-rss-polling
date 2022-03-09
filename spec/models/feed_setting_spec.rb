@@ -11,6 +11,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
   let(:feed_category_filter) { 'spec' }
   let(:feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, discourse_tags: [tag.name], feed_category_filter: feed_category_filter) }
   let(:wrong_feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: author.username, discourse_category_id: category.id, discourse_tags: [tag.name], feed_category_filter: 'non existing category') }
+  let(:missing_username_feed_setting) { DiscourseRssPolling::FeedSetting.new(feed_url: feed_url, author_username: nil, discourse_category_id: category.id, discourse_tags: [tag.name], feed_category_filter: feed_category_filter) }
   let(:poll_feed_job) { Jobs::DiscourseRssPolling::PollFeed }
 
   describe '#poll' do
@@ -61,6 +62,14 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
         stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 
         expect { wrong_feed_setting.poll(inline: true) }.not_to change { author.topics.count }
+      end
+
+      it 'does not create the new topics because of the missing username' do
+        Discourse.redis.del("rss-polling-feed-polled:#{Digest::SHA1.hexdigest(feed_url)}")
+        stub_request(:head, feed_url).to_return(status: 200, body: '')
+        stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
+
+        expect { missing_username_feed_setting.poll(inline: true) }.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
   end
