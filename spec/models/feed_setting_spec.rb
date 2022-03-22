@@ -69,7 +69,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
         stub_request(:head, feed_url).to_return(status: 200, body: '')
         stub_request(:get, feed_url).to_return(status: 200, body: file_from_fixtures('feed.rss', 'feed'))
 
-        expect { missing_username_feed_setting.poll(inline: true) }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect { missing_username_feed_setting.poll(inline: true) }.not_to change { Topic.count }
       end
     end
   end
