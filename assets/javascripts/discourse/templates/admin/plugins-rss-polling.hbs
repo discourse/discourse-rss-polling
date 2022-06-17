@@ -44,9 +44,7 @@
               value=setting.author_username
               disabled=saving
               onChange=(action "updateAuthorUsername" setting)
-              options=(hash
-                maximum=1
-              )
+              options=(hash maximum=1)
             }}
           </td>
           <td>
@@ -97,5 +95,11 @@
     </tfoot>
   </table>
 
-  <p><a href="https://meta.discourse.org/t/configure-the-discourse-rss-polling-plugin/156387">{{i18n "admin.rss_polling.documentation"}}</a></p>
+  <p>
+    <a
+      href="https://meta.discourse.org/t/configure-the-discourse-rss-polling-plugin/156387"
+    >
+      {{i18n "admin.rss_polling.documentation"}}
+    </a>
+  </p>
 </div>
