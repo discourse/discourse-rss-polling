@@ -5,6 +5,7 @@
 # version: 0.0.1
 # authors: xrav3nz
 # url: https://github.com/discourse/discourse-rss-polling
+# transpile_js: true
 
 load File.expand_path(File.join('..', 'lib', 'discourse_rss_polling', 'engine.rb'), __FILE__)
 
