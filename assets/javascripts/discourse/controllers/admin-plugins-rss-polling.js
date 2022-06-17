@@ -22,8 +22,7 @@ export default Controller.extend({
 
     this.get("feedSettings").forEach((feedSetting) => {
       const localValidity =
-        !isBlank(feedSetting.feed_url) &&
-        !isBlank(feedSetting.author_username);
+        !isBlank(feedSetting.feed_url) && !isBlank(feedSetting.author_username);
       set(feedSetting, "valid", localValidity);
       overallValidity = overallValidity && localValidity;
     });
