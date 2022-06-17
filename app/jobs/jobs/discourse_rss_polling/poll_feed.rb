@@ -8,11 +8,12 @@ module Jobs
       def execute(args)
         return unless SiteSetting.rss_polling_enabled
 
-        @author = User.find_by_username(args[:author_username])
-        return if !@author
+        return unless @author = User.find_by_username(args[:author_username])
+
+        @discourse_category_id = args[:discourse_category_id]
+        return if @discourse_category_id.present? && !Category.exists?(@discourse_category_id)
 
         @feed_url = args[:feed_url]
-        @discourse_category_id = args[:discourse_category_id]
         @discourse_tags = args[:discourse_tags]
         @feed_category_filter = args[:feed_category_filter]
 
@@ -36,7 +37,12 @@ module Jobs
           next if !topic.content.present?
           next if (feed_category_filter.present? && topic.categories.none? { |c| c.include?(feed_category_filter) })
 
-          TopicEmbed.import(author, topic.url, topic.title, CGI.unescapeHTML(topic.content), category_id: discourse_category_id, tags: discourse_tags, cook_method: topic.is_youtube? ? Post.cook_methods[:regular] : nil)
+          cook_method = topic.is_youtube? ? Post.cook_methods[:regular] : nil
+
+          TopicEmbed.import(
+            author, topic.url, topic.title, CGI.unescapeHTML(topic.content),
+            category_id: discourse_category_id, tags: discourse_tags, cook_method: cook_method
+          )
         end
       end
 

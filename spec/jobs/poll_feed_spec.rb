@@ -36,5 +36,15 @@ RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
       stub_request(:get, feed_url).to_raise(Excon::Error::HTTPStatus)
       job.execute(feed_url: feed_url, author_username: author.username)
     end
+
+    it "skips the topic if the category doesn't exist on our side" do
+      invalid_discourse_category_id = 99
+
+      expect {
+        job.execute(feed_url: feed_url, author_username: author.username, discourse_category_id: invalid_discourse_category_id)
+      }.not_to change { author.topics.count }
+
+      expect(author.topics.last).to be_nil
+    end
   end
 end
