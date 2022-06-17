@@ -1,18 +1,16 @@
+import Controller from "@ember/controller";
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 import { set } from "@ember/object";
 import { alias } from "@ember/object/computed";
+import discourseComputed, { observes } from "discourse-common/utils/decorators";
+import { isBlank } from "@ember/utils";
 
-import {
-  default as computed,
-  observes,
-} from "discourse-common/utils/decorators";
-
-export default Ember.Controller.extend({
+export default Controller.extend({
   feedSettings: alias("model"),
   saving: false,
   valid: false,
 
-  @computed("valid", "saving")
+  @discourseComputed("valid", "saving")
   unsavable(valid, saving) {
     return !valid || saving;
   },
@@ -24,9 +22,9 @@ export default Ember.Controller.extend({
 
     this.get("feedSettings").forEach((feedSetting) => {
       const localValidity =
-        !Ember.isBlank(feedSetting.feed_url) &&
-        !Ember.isBlank(feedSetting.author_username);
-      Ember.set(feedSetting, "valid", localValidity);
+        !isBlank(feedSetting.feed_url) &&
+        !isBlank(feedSetting.author_username);
+      set(feedSetting, "valid", localValidity);
       overallValidity = overallValidity && localValidity;
     });
 
