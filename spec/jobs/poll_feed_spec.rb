@@ -46,5 +46,13 @@ RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
 
       expect(author.topics.last).to be_nil
     end
+
+    it "does not raise error for valid xml but non-rss content" do
+      stub_request(:get, feed_url).to_return(status: 200, body: "<html><body>tesing</body></html>")
+
+      expect {
+        job.execute(feed_url: feed_url, author_username: author.username)
+      }.not_to raise_error
+    end
   end
 end
