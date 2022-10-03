@@ -45,7 +45,7 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
 
       it 'does not queue PollFeed jobs' do
         Sidekiq::Testing.fake! do
-          expect { job.execute({}) }.to change { Jobs::DiscourseRssPolling::PollFeed.jobs.size }.by(0)
+          expect { job.execute({}) }.not_to change { Jobs::DiscourseRssPolling::PollFeed.jobs.size }
         end
       end
     end
