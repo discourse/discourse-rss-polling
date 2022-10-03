@@ -38,7 +38,7 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
       end
     end
 
-    context 'When the plugin is disabled' do
+    context 'when the plugin is disabled' do
       before do
         SiteSetting.rss_polling_enabled = false
       end
