@@ -12,7 +12,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     it { expect(feed_item.title).to eq(expected[:title]) }
   end
 
-  context 'Empty item' do
+  context 'with empty item' do
     let(:raw_feed_item) { {} }
     include_examples(
       'correctly parses the feed',
@@ -22,7 +22,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'RSS item' do
+  context 'with RSS item' do
     let(:feed) { RSS::Parser.parse(file_from_fixtures('feed.rss', 'feed')) }
     let(:raw_feed_item) { feed.items.first }
 
@@ -34,7 +34,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'escaped title' do
+  context 'with escaped title' do
     let(:raw_feed) { rss_polling_file_fixture('escaped_html.atom').read }
     let(:feed) { RSS::Parser.parse(raw_feed) }
     let(:raw_feed_item) { feed.entries.first }
@@ -47,7 +47,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'ATOM item with content element' do
+  context 'with ATOM item with content element' do
     let(:feed) { RSS::Parser.parse(file_from_fixtures('feed.atom', 'feed')) }
     let(:raw_feed_item) { feed.entries.first }
 
@@ -59,7 +59,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'ATOM item with summary element' do
+  context 'with ATOM item with summary element' do
     let(:raw_feed) { rss_polling_file_fixture('no_content_only_summary.atom').read }
     let(:feed) { RSS::Parser.parse(raw_feed) }
     let(:raw_feed_item) { feed.entries.first }
@@ -72,7 +72,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'ATOM items with categories elements' do
+  context 'with ATOM items with categories elements' do
     let(:raw_feed) { rss_polling_file_fixture('multiple_categories.atom').read }
     let(:feed) { RSS::Parser.parse(raw_feed, false) }
     let(:raw_feed_item) { feed.entries.first }
@@ -86,7 +86,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'Youtube playlist' do
+  context 'with Youtube playlist' do
     let(:raw_feed) { rss_polling_file_fixture('youtube_playlist.xml').read }
     let(:feed) { RSS::Parser.parse(raw_feed, false) }
     let(:raw_feed_item) { feed.entries.first }
@@ -99,7 +99,7 @@ RSpec.describe DiscourseRssPolling::FeedItem do
     )
   end
 
-  context 'Youtube channel' do
+  context 'with youtube channel' do
     let(:raw_feed) { rss_polling_file_fixture('youtube_channel.xml').read }
     let(:feed) { RSS::Parser.parse(raw_feed, false) }
     let(:raw_feed_item) { feed.entries.first }

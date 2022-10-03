@@ -15,7 +15,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
   let(:poll_feed_job) { Jobs::DiscourseRssPolling::PollFeed }
 
   describe '#poll' do
-    context 'inline: false' do
+    context 'with inline: false' do
       before do
         SiteSetting.queue_jobs = true
       end
@@ -35,7 +35,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
       end
     end
 
-    context 'inline: true' do
+    context 'with inline: true' do
       before do
         SiteSetting.tagging_enabled = true
       end
