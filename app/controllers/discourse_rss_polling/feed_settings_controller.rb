@@ -2,20 +2,26 @@
 
 module DiscourseRssPolling
   class FeedSettingsController < Admin::AdminController
-    requires_plugin 'discourse-rss-polling'
+    requires_plugin "discourse-rss-polling"
 
     def show
       render json: FeedSettingFinder.all
     end
 
     def update
-
       if params[:feed_settings] == []
         new_feed_settings = []
       else
-        new_feed_settings = (feed_setting_params.presence || []).map do |feed_setting|
-          feed_setting.values_at(:feed_url, :author_username, :discourse_category_id, :discourse_tags, :feed_category_filter)
-        end
+        new_feed_settings =
+          (feed_setting_params.presence || []).map do |feed_setting|
+            feed_setting.values_at(
+              :feed_url,
+              :author_username,
+              :discourse_category_id,
+              :discourse_tags,
+              :feed_category_filter,
+            )
+          end
       end
 
       SiteSetting.rss_polling_feed_setting = new_feed_settings.to_yaml

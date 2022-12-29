@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rss'
+require "rss"
 
 module Jobs
   module DiscourseRssPolling
@@ -29,19 +29,34 @@ module Jobs
       end
 
       def not_polled_recently?
-        Discourse.redis.set(feed_key, 1, ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds, nx: true)
+        Discourse.redis.set(
+          feed_key,
+          1,
+          ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds,
+          nx: true,
+        )
       end
 
       def poll_feed
         topics_polled_from_feed.each do |topic|
           next if !topic.content.present?
-          next if (feed_category_filter.present? && topic.categories.none? { |c| c.include?(feed_category_filter) })
+          if (
+               feed_category_filter.present? &&
+                 topic.categories.none? { |c| c.include?(feed_category_filter) }
+             )
+            next
+          end
 
           cook_method = topic.is_youtube? ? Post.cook_methods[:regular] : nil
 
           TopicEmbed.import(
-            author, topic.url, topic.title, CGI.unescapeHTML(topic.content),
-            category_id: discourse_category_id, tags: discourse_tags, cook_method: cook_method
+            author,
+            topic.url,
+            topic.title,
+            CGI.unescapeHTML(topic.content),
+            category_id: discourse_category_id,
+            tags: discourse_tags,
+            cook_method: cook_method,
           )
         end
       end

@@ -12,7 +12,13 @@ module DiscourseRssPolling
       :feed_category_filter,
     )
 
-    def initialize(feed_url:, author_username:, discourse_category_id:, discourse_tags:, feed_category_filter:)
+    def initialize(
+      feed_url:,
+      author_username:,
+      discourse_category_id:,
+      discourse_tags:,
+      feed_category_filter:
+    )
       @feed_url = feed_url
       @author_username = author_username
       @discourse_category_id = discourse_category_id
@@ -22,9 +28,22 @@ module DiscourseRssPolling
 
     def poll(inline: false)
       if inline
-        Jobs::DiscourseRssPolling::PollFeed.new.execute(feed_url: feed_url, author_username: author_username, discourse_category_id: discourse_category_id, discourse_tags: discourse_tags, feed_category_filter: feed_category_filter)
+        Jobs::DiscourseRssPolling::PollFeed.new.execute(
+          feed_url: feed_url,
+          author_username: author_username,
+          discourse_category_id: discourse_category_id,
+          discourse_tags: discourse_tags,
+          feed_category_filter: feed_category_filter,
+        )
       else
-        Jobs.enqueue('DiscourseRssPolling::PollFeed', feed_url: feed_url, author_username: author_username, discourse_category_id: discourse_category_id, discourse_tags: discourse_tags, feed_category_filter: feed_category_filter)
+        Jobs.enqueue(
+          "DiscourseRssPolling::PollFeed",
+          feed_url: feed_url,
+          author_username: author_username,
+          discourse_category_id: discourse_category_id,
+          discourse_tags: discourse_tags,
+          feed_category_filter: feed_category_filter,
+        )
       end
     end
   end
