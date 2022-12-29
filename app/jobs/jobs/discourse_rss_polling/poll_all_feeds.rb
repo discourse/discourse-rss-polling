@@ -17,10 +17,15 @@ module Jobs
         ::DiscourseRssPolling::FeedSettingFinder.all.each(&:poll)
       end
 
-      REDIS_KEY = 'rss-polling-feeds-polled'
+      REDIS_KEY = "rss-polling-feeds-polled"
 
       def not_polled_recently?
-        Discourse.redis.set(REDIS_KEY, 1, ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds, nx: true)
+        Discourse.redis.set(
+          REDIS_KEY,
+          1,
+          ex: SiteSetting.rss_polling_frequency.minutes - 10.seconds,
+          nx: true,
+        )
       end
     end
   end
