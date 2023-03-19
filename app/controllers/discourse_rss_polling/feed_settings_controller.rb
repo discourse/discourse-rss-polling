@@ -24,7 +24,20 @@ module DiscourseRssPolling
           end
       end
 
-      SiteSetting.rss_polling_feed_setting = new_feed_settings.to_yaml
+      #SiteSetting.rss_polling_feed_setting = new_feed_settings.to_yaml
+
+      if feed_setting_params.presence
+        feed_settings_params.each do |feed|
+          f = RssFeed.find_by(url: feed.feed_url)
+          if f
+            #update
+          else
+            #create
+          end
+        end
+      end
+
+      # delete?
 
       render json: FeedSettingFinder.all
     end
