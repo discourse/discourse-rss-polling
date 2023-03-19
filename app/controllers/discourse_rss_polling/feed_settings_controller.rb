@@ -9,30 +9,28 @@ module DiscourseRssPolling
     end
 
     def update
-      if params[:feed_settings] == []
-        new_feed_settings = []
-      else
-        new_feed_settings =
-          (feed_setting_params.presence || []).map do |feed_setting|
-            feed_setting.values_at(
-              :feed_url,
-              :author_username,
-              :discourse_category_id,
-              :discourse_tags,
-              :feed_category_filter,
-            )
-          end
-      end
-
-      #SiteSetting.rss_polling_feed_setting = new_feed_settings.to_yaml
 
       if feed_setting_params.presence
-        feed_settings_params.each do |feed|
-          f = RssFeed.find_by(url: feed.feed_url)
-          if f
-            #update
+        feed_setting_params.each do |feed|
+          rss_feed = RssFeed.find_by(url: feed['feed_url'])
+          # Temporary until we start using IDs from the db
+          # and can update individual items
+          if rss_feed
+            rss_feed.update(
+              url: feed['feed_url'],
+              author: feed['author_username'],
+              category_id: feed['discourse_category_id'],
+              tags: feed['discourse_tags'].nil? ? nil : feed['discourse_tags'].join(','),
+              category_filter: feed['feed_category_filter'],
+            )
           else
-            #create
+            RssFeed.create(
+              url: feed['feed_url'],
+              author: feed['author_username'],
+              category_id: feed['discourse_category_id'],
+              tags: feed['discourse_tags'].nil? ? nil : feed['discourse_tags'].join(','),
+              category_filter: feed['feed_category_filter'],
+            )
           end
         end
       end
