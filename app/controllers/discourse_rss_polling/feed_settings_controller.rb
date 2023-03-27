@@ -9,7 +9,6 @@ module DiscourseRssPolling
     end
 
     def update
-
       if params[:feed_settings] == []
         # Delete the last feed item
         RssFeed.destroy_all
@@ -19,34 +18,31 @@ module DiscourseRssPolling
         if feed_setting_params.presence
           current_feeds = RssFeed.all.as_json
           feed_setting_params.each do |feed|
-            current_feeds.delete_if { |h| h['url'] == feed['feed_url'] }
-            rss_feed = RssFeed.find_by(url: feed['feed_url'])
+            current_feeds.delete_if { |h| h["url"] == feed["feed_url"] }
+            rss_feed = RssFeed.find_by(url: feed["feed_url"])
             if rss_feed
               rss_feed.update(
-                url: feed['feed_url'],
-                author: feed['author_username'],
-                category_id: feed['discourse_category_id'],
-                tags: feed['discourse_tags'].nil? ? nil : feed['discourse_tags'].join(','),
-                category_filter: feed['feed_category_filter'],
+                url: feed["feed_url"],
+                author: feed["author_username"],
+                category_id: feed["discourse_category_id"],
+                tags: feed["discourse_tags"].nil? ? nil : feed["discourse_tags"].join(","),
+                category_filter: feed["feed_category_filter"],
               )
             else
               RssFeed.create(
-                url: feed['feed_url'],
-                author: feed['author_username'],
-                category_id: feed['discourse_category_id'],
-                tags: feed['discourse_tags'].nil? ? nil : feed['discourse_tags'].join(','),
-                category_filter: feed['feed_category_filter'],
+                url: feed["feed_url"],
+                author: feed["author_username"],
+                category_id: feed["discourse_category_id"],
+                tags: feed["discourse_tags"].nil? ? nil : feed["discourse_tags"].join(","),
+                category_filter: feed["feed_category_filter"],
               )
             end
           end
 
           # Delete any remaining feeds
-          current_feeds.each do |feed|
-            RssFeed.destroy_by(id: feed['id'])
-          end
+          current_feeds.each { |feed| RssFeed.destroy_by(id: feed["id"]) }
         end
       end
-
 
       render json: FeedSettingFinder.all
     end

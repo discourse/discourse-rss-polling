@@ -26,7 +26,7 @@ module DiscourseRssPolling
           feed_url: feed.url,
           author_username: feed.author,
           discourse_category_id: feed.category_id,
-          discourse_tags: feed.tags.nil? ? nil : feed.tags.split(','),
+          discourse_tags: feed.tags.nil? ? nil : feed.tags.split(","),
           feed_category_filter: feed.category_filter,
         )
       end

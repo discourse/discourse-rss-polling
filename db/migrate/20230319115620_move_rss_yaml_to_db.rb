@@ -5,7 +5,7 @@ class MoveRssYamlToDb < ActiveRecord::Migration[7.0]
     feeds = YAML.safe_load(SiteSetting.rss_polling_feed_setting)
     feeds.each do |feed|
       # ["https://blog.codinghorror.com/rss/", "system", 14, ["welcome", "another"], "category_filter"]
-      tags = feed[3].nil? ? nil : feed[3].join(',')
+      tags = feed[3].nil? ? nil : feed[3].join(",")
 
       DiscourseRssPolling::RssFeed.create(
         url: feed[0],
@@ -15,6 +15,5 @@ class MoveRssYamlToDb < ActiveRecord::Migration[7.0]
         category_filter: feed[4],
       )
     end
-
   end
 end
