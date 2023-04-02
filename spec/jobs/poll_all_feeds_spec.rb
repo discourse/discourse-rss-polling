@@ -8,13 +8,10 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
 
   describe "#execute" do
     before do
-      DiscourseRssPolling::RssFeed.create(
-        url: "https://www.example.com/feed",
-        author: "system"
-      )
+      DiscourseRssPolling::RssFeed.create(url: "https://www.example.com/feed", author: "system")
       DiscourseRssPolling::RssFeed.create(
         url: "https://blog.discourse.org/feed/",
-        author: "discourse"
+        author: "discourse",
       )
 
       SiteSetting.queue_jobs = true
