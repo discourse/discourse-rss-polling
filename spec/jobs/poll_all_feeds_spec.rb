@@ -8,10 +8,14 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
 
   describe "#execute" do
     before do
-      SiteSetting.rss_polling_feed_setting = [
-        %w[https://www.example.com/feed system],
-        %w[https://blog.discourse.org/feed/ discourse],
-      ].to_yaml
+      DiscourseRssPolling::RssFeed.create(
+        url: "https://www.example.com/feed",
+        author: "system"
+      )
+      DiscourseRssPolling::RssFeed.create(
+        url: "https://blog.discourse.org/feed/",
+        author: "discourse"
+      )
 
       SiteSetting.queue_jobs = true
       Discourse.redis.del("rss-polling-feeds-polled")
