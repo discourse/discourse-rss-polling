@@ -13,7 +13,7 @@ describe DiscourseRssPolling::FeedSettingsController do
     DiscourseRssPolling::RssFeed.create(
       url: "https://blog.discourse.org/feed",
       author: "system",
-      category_id: nil,
+      category_id: 4,
       tags: nil,
       category_filter: "updates",
     )
@@ -54,6 +54,36 @@ describe DiscourseRssPolling::FeedSettingsController do
           root: :feed_settings,
         ).to_json
       expect(response.body).to eq(expected_json)
+    end
+
+    it "allows duplicate rss feed urls" do
+      put "/admin/plugins/rss_polling/feed_settings.json",
+          params: {
+            feed_settings: [
+              {
+                feed_url: "https://blog.discourse.org/feed",
+                author_username: "system",
+                discourse_category_id: 2,
+                feed_category_filter: "updates",
+              },
+              {
+                feed_url: "https://blog.discourse.org/feed",
+                author_username: "system",
+                discourse_category_id: 4,
+                feed_category_filter: "updates",
+              },
+            ],
+          }
+
+      expect(response.status).to eq(200)
+      feeds = DiscourseRssPolling::FeedSettingFinder.all
+      expected_json =
+        ActiveModel::ArraySerializer.new(
+          feeds,
+          root: :feed_settings,
+        ).to_json
+      expect(response.body).to eq(expected_json)
+      expect(feeds.count).to eq(2)
     end
   end
 end

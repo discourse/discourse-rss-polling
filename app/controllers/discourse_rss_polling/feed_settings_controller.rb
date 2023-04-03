@@ -18,8 +18,12 @@ module DiscourseRssPolling
         if feed_setting_params.presence
           current_feeds = RssFeed.all.as_json
           feed_setting_params.each do |feed|
-            current_feeds.delete_if { |h| h["url"] == feed["feed_url"] }
-            rss_feed = RssFeed.find_by(url: feed["feed_url"])
+            current_feeds.delete_if do |h|
+              h["url"] == feed["feed_url"] &&
+                h["category_id"].to_i == feed["discourse_category_id"].to_i &&
+                h["category_filter"] == feed["feed_category_filter"]
+            end
+            rss_feed = RssFeed.find_by(url: feed["feed_url"], category_id: feed["discourse_category_id"], category_filter: feed["feed_category_filter"])
             if rss_feed
               rss_feed.update(
                 url: feed["feed_url"],
