@@ -77,11 +77,7 @@ describe DiscourseRssPolling::FeedSettingsController do
 
       expect(response.status).to eq(200)
       feeds = DiscourseRssPolling::FeedSettingFinder.all
-      expected_json =
-        ActiveModel::ArraySerializer.new(
-          feeds,
-          root: :feed_settings,
-        ).to_json
+      expected_json = ActiveModel::ArraySerializer.new(feeds, root: :feed_settings).to_json
       expect(response.body).to eq(expected_json)
       expect(feeds.count).to eq(2)
     end

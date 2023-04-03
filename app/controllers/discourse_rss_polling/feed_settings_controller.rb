@@ -23,7 +23,12 @@ module DiscourseRssPolling
                 h["category_id"].to_i == feed["discourse_category_id"].to_i &&
                 h["category_filter"] == feed["feed_category_filter"]
             end
-            rss_feed = RssFeed.find_by(url: feed["feed_url"], category_id: feed["discourse_category_id"], category_filter: feed["feed_category_filter"])
+            rss_feed =
+              RssFeed.find_by(
+                url: feed["feed_url"],
+                category_id: feed["discourse_category_id"],
+                category_filter: feed["feed_category_filter"],
+              )
             if rss_feed
               rss_feed.update(
                 url: feed["feed_url"],
