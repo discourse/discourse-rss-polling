@@ -10,7 +10,6 @@ module DiscourseRssPolling
 
     def update
       if params[:feed_settings] == []
-        # Delete the last feed item
         RssFeed.destroy_all
       else
         # Temporary until we start using IDs from the db
