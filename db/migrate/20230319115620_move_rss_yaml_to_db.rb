@@ -22,5 +22,4 @@ class MoveRssYamlToDb < ActiveRecord::Migration[7.0]
   def down
     raise ActiveRecord::IrreversibleMigration
   end
-
 end
