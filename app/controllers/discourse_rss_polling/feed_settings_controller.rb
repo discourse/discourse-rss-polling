@@ -15,7 +15,7 @@ module DiscourseRssPolling
         # Temporary until we start using IDs from the db
         # and can update individual items
         if feed_setting_params.presence
-          current_feeds = RssFeed.all
+          current_feeds = RssFeed.all.to_a
           feed_setting_params.each do |feed|
             current_feeds.delete_if do |h|
               h.url == feed["feed_url"] && h.category_id == feed["discourse_category_id"].to_i &&
