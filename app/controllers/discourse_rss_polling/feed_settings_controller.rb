@@ -18,8 +18,7 @@ module DiscourseRssPolling
           current_feeds = RssFeed.all
           feed_setting_params.each do |feed|
             current_feeds.delete_if do |h|
-              h.url == feed["feed_url"] &&
-                h.category_id == feed["discourse_category_id"].to_i &&
+              h.url == feed["feed_url"] && h.category_id == feed["discourse_category_id"].to_i &&
                 h.category_filter == feed["feed_category_filter"]
             end
             rss_feed =
