@@ -2,18 +2,22 @@
 
 class MoveRssYamlToDb < ActiveRecord::Migration[7.0]
   def up
-    feeds = YAML.safe_load(SiteSetting.rss_polling_feed_setting)
-    feeds.each do |feed|
-      # ["https://blog.codinghorror.com/rss/", "system", 14, ["welcome", "another"], "category_filter"]
-      tags = feed[3].nil? ? nil : feed[3].join(",")
+    rss_polling_feed_setting = DB.query("SELECT * FROM site_settings WHERE name = 'rss_polling_feed_setting' LIMIT 1").first&.value || ""
+    begin
+      feeds = YAML.safe_load(rss_polling_feed_setting)
+      feeds&.each do |(url, author, category_id, tags, category_filter)|
+        tags = tags&.join(",")
 
-      DiscourseRssPolling::RssFeed.create(
-        url: feed[0],
-        author: feed[1],
-        category_id: feed[2],
-        tags: tags,
-        category_filter: feed[4],
-      )
+        DiscourseRssPolling::RssFeed.create(
+          url:,
+          author:,
+          category_id:,
+          tags:,
+          category_filter:,
+        )
+      rescue Psych::SyntaxError => ex
+        # We don't want the migration to fail if invalid yaml exists for some reason
+      end
     end
   end
 end

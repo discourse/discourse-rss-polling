@@ -10,7 +10,7 @@ describe DiscourseRssPolling::FeedSettingsController do
 
     SiteSetting.rss_polling_enabled = true
 
-    DiscourseRssPolling::RssFeed.create(
+    DiscourseRssPolling::RssFeed.create!(
       url: "https://blog.discourse.org/feed",
       author: "system",
       category_id: 4,
