@@ -46,7 +46,7 @@ module DiscourseRssPolling
             end
 
             # Delete any remaining feeds
-            current_feeds.each { |feed| RssFeed.destroy_by(id: feed.id) }
+            current_feeds.each { |f| RssFeed.destroy_by(id: f.id) }
           end
         end
       end
