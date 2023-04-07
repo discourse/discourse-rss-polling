@@ -4,7 +4,15 @@ module DiscourseRssPolling
   class FeedSettingFinder
     def self.by_embed_url(embed_url)
       host = URI.parse(embed_url).host.sub(/^www\./, "")
-      new.where { |feed_url, *_| feed_url.include?(host) }.take
+      feed = RssFeed.where("url LIKE ?", "%#{host}%").first
+      return nil if !feed
+      FeedSetting.new(
+        feed_url: feed.url,
+        author_username: feed.author,
+        discourse_category_id: feed.category_id,
+        discourse_tags: feed.tags.nil? ? nil : feed.tags.split(","),
+        feed_category_filter: feed.category_filter,
+      )
     end
 
     def self.all
@@ -21,18 +29,15 @@ module DiscourseRssPolling
     end
 
     def all
-      YAML
-        .safe_load(SiteSetting.rss_polling_feed_setting)
-        .select(&@condition)
-        .map do |(feed_url, author_username, discourse_category_id, discourse_tags, feed_category_filter)|
-          FeedSetting.new(
-            feed_url: feed_url,
-            author_username: author_username,
-            discourse_category_id: discourse_category_id,
-            discourse_tags: discourse_tags,
-            feed_category_filter: feed_category_filter,
-          )
-        end
+      RssFeed.all.map do |feed|
+        FeedSetting.new(
+          feed_url: feed.url,
+          author_username: feed.author,
+          discourse_category_id: feed.category_id,
+          discourse_tags: feed.tags.nil? ? nil : feed.tags.split(","),
+          feed_category_filter: feed.category_filter,
+        )
+      end
     end
 
     def take

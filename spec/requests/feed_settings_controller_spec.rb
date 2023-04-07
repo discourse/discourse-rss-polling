@@ -9,10 +9,14 @@ describe DiscourseRssPolling::FeedSettingsController do
     sign_in(admin)
 
     SiteSetting.rss_polling_enabled = true
-    SiteSetting.rss_polling_feed_setting = [
-      %w[https://www.example.com/feed system],
-      ["https://blog.discourse.org/feed/", "discourse", nil, nil, "updates"],
-    ].to_yaml
+
+    DiscourseRssPolling::RssFeed.create!(
+      url: "https://blog.discourse.org/feed",
+      author: "system",
+      category_id: 4,
+      tags: nil,
+      category_filter: "updates",
+    )
   end
 
   describe "#show" do
@@ -31,7 +35,7 @@ describe DiscourseRssPolling::FeedSettingsController do
   end
 
   describe "#update" do
-    it "updates SiteSetting.rss_polling_feed_setting" do
+    it "updates rss feeds" do
       put "/admin/plugins/rss_polling/feed_settings.json",
           params: {
             feed_settings: [
@@ -44,9 +48,38 @@ describe DiscourseRssPolling::FeedSettingsController do
           }
 
       expect(response.status).to eq(200)
-      expect(SiteSetting.rss_polling_feed_setting).to eq(
-        [["https://www.newsite.com/feed", "system", nil, nil, "updates"]].to_yaml,
-      )
+      expected_json =
+        ActiveModel::ArraySerializer.new(
+          DiscourseRssPolling::FeedSettingFinder.all,
+          root: :feed_settings,
+        ).to_json
+      expect(response.body).to eq(expected_json)
+    end
+
+    it "allows duplicate rss feed urls" do
+      put "/admin/plugins/rss_polling/feed_settings.json",
+          params: {
+            feed_settings: [
+              {
+                feed_url: "https://blog.discourse.org/feed",
+                author_username: "system",
+                discourse_category_id: 2,
+                feed_category_filter: "updates",
+              },
+              {
+                feed_url: "https://blog.discourse.org/feed",
+                author_username: "system",
+                discourse_category_id: 4,
+                feed_category_filter: "updates",
+              },
+            ],
+          }
+
+      expect(response.status).to eq(200)
+      feeds = DiscourseRssPolling::FeedSettingFinder.all
+      expected_json = ActiveModel::ArraySerializer.new(feeds, root: :feed_settings).to_json
+      expect(response.body).to eq(expected_json)
+      expect(feeds.count).to eq(2)
     end
   end
 end

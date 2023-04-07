@@ -4,11 +4,9 @@ require "rails_helper"
 
 RSpec.describe DiscourseRssPolling::FeedSettingFinder do
   before do
-    SiteSetting.rss_polling_feed_setting = [
-      %w[https://www.withwww.com/feed system],
-      %w[https://withoutwww.com/feed system],
-      %w[https://blog.discourse.org/feed/ discourse],
-    ].to_yaml
+    DiscourseRssPolling::RssFeed.create!(url: "https://blog.discourse.org/feed/", author: "system")
+    DiscourseRssPolling::RssFeed.create!(url: "https://www.withwww.com/feed", author: "system")
+    DiscourseRssPolling::RssFeed.create!(url: "https://withoutwww.com/feed", author: "system")
   end
 
   describe ".by_embed_url" do
