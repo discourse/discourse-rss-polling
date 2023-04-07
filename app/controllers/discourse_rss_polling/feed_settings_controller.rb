@@ -44,10 +44,10 @@ module DiscourseRssPolling
                 category_filter: feed["feed_category_filter"],
               )
             end
-          end
 
-          # Delete any remaining feeds
-          current_feeds&.each { |feed| RssFeed.destroy_by(id: feed.id) }
+            # Delete any remaining feeds
+            current_feeds.each { |feed| RssFeed.destroy_by(id: feed.id) }
+          end
         end
       end
 
