@@ -5,12 +5,12 @@
         <th colspan="2">{{i18n "admin.rss_polling.feed"}}</th>
         <th colspan="3">{{i18n "admin.rss_polling.discourse"}}</th>
         <th rowspan="2">
-          {{d-button
-            icon="save"
-            action="update"
-            class="btn-primary"
-            disabled=unsavable
-          }}
+          <DButton
+            @icon="save"
+            @action="update"
+            @class="btn-primary"
+            @disabled={{unsavable}}
+          />
         </th>
       </tr>
       <tr>
@@ -65,12 +65,12 @@
             }}
           </td>
           <td>
-            {{d-button
-              icon="times"
-              action="destroy"
-              actionParam=setting
-              disabled=saving
-            }}
+            <DButton
+              @icon="times"
+              @action="destroy"
+              @actionParam={{setting}}
+              @disabled={{saving}}
+            />
           </td>
         </tr>
       {{/each}}
@@ -84,12 +84,12 @@
         <td></td>
         <td></td>
         <td>
-          {{d-button
-            action="create"
-            icon="plus"
-            class="btn-secondary"
-            disabled=saving
-          }}
+          <DButton
+            @action="create"
+            @icon="plus"
+            @class="btn-secondary"
+            @disabled={{saving}}
+          />
         </td>
       </tr>
     </tfoot>
