@@ -26,43 +26,43 @@
       {{#each model as |setting|}}
         <tr>
           <td>
-            {{input
-              value=setting.feed_url
+            <Input
+              @value={{setting.feed_url}}
               placeholder="https://blog.example.com/feed"
-              disabled=saving
-            }}
+              disabled={{saving}}
+            />
           </td>
           <td>
-            {{input
-              value=setting.feed_category_filter
+            <Input
+              @value={{setting.feed_category_filter}}
               placeholder="updates"
-              disabled=saving
-            }}
+              disabled={{saving}}
+            />
           </td>
           <td>
-            {{email-group-user-chooser
-              value=setting.author_username
-              disabled=saving
-              onChange=(action "updateAuthorUsername" setting)
-              options=(hash maximum=1)
-            }}
+            <EmailGroupUserChooser
+              @value={{setting.author_username}}
+              @disabled={{saving}}
+              @onChange={{action "updateAuthorUsername" setting}}
+              @options={{hash maximum=1}}
+            />
           </td>
           <td>
-            {{category-chooser
-              value=setting.discourse_category_id
-              class="small"
-              onChange=(action (mut setting.discourse_category_id))
-            }}
+            <CategoryChooser
+              @value={{setting.discourse_category_id}}
+              @class="small"
+              @onChange={{action (mut setting.discourse_category_id)}}
+            />
           </td>
           <td>
-            {{tag-chooser
-              tags=setting.discourse_tags
-              allowCreate=false
-              everyTag=true
-              unlimitedTagCount=true
-              class="small"
-              onChange=(action (mut setting.discourse_tags))
-            }}
+            <TagChooser
+              @tags={{setting.discourse_tags}}
+              @allowCreate={{false}}
+              @everyTag={{true}}
+              @unlimitedTagCount={{true}}
+              @class="small"
+              @onChange={{action (mut setting.discourse_tags)}}
+            />
           </td>
           <td>
             <DButton
