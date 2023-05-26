@@ -7,8 +7,8 @@
         <th rowspan="2">
           <DButton
             @icon="save"
-            @action="update"
-            @class="btn-primary"
+            @action={{action "update"}}
+            class="btn-primary"
             @disabled={{unsavable}}
           />
         </th>
@@ -67,8 +67,7 @@
           <td>
             <DButton
               @icon="times"
-              @action="destroy"
-              @actionParam={{setting}}
+              @action={{action "destroy" setting}}
               @disabled={{saving}}
             />
           </td>
@@ -85,9 +84,9 @@
         <td></td>
         <td>
           <DButton
-            @action="create"
+            @action={{action "create"}}
             @icon="plus"
-            @class="btn-secondary"
+            class="btn-secondary"
             @disabled={{saving}}
           />
         </td>
