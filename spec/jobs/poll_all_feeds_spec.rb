@@ -14,7 +14,7 @@ RSpec.describe Jobs::DiscourseRssPolling::PollAllFeeds do
         author: "discourse",
       )
 
-      SiteSetting.queue_jobs = true
+      Jobs.run_later!
       Discourse.redis.del("rss-polling-feeds-polled")
     end
 
