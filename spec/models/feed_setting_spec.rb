@@ -40,7 +40,7 @@ RSpec.describe DiscourseRssPolling::FeedSetting do
 
   describe "#poll" do
     context "with inline: false" do
-      before { SiteSetting.queue_jobs = true }
+      before { Jobs.run_later! }
 
       it "enqueues a Jobs::DiscourseRssPolling::PollFeed job with the correct arguments" do
         Sidekiq::Testing.fake! do

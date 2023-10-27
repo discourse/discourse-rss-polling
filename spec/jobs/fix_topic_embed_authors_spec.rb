@@ -6,7 +6,7 @@ RSpec.describe Jobs::DiscourseRssPolling::FixTopicEmbedAuthors do
   let(:job) { Jobs::DiscourseRssPolling::FixTopicEmbedAuthors.new }
 
   describe "#execute" do
-    before { SiteSetting.queue_jobs = true }
+    before { Jobs.run_later! }
 
     it "makes sure the topic and first post have the same author" do
       Sidekiq::Testing.fake! do
