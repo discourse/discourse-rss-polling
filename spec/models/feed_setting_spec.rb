@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe DiscourseRssPolling::FeedSetting do
   SiteSetting.rss_polling_enabled = true
   let(:feed_url) { "https://blog.discourse.org/feed/" }
-  let(:author) { Fabricate(:user) }
+  let(:author) { Fabricate(:user, refresh_auto_groups: true) }
   let(:category) { Fabricate(:category) }
   let(:tag) { Fabricate(:tag) }
   let(:feed_category_filter) { "spec" }
