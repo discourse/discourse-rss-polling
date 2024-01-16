@@ -1,5 +1,5 @@
-import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 import DiscourseRoute from "discourse/routes/discourse";
+import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 
 export default DiscourseRoute.extend({
   model() {
