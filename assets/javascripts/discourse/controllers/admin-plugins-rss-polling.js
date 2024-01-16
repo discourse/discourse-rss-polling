@@ -1,9 +1,9 @@
 import Controller from "@ember/controller";
-import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 import { set } from "@ember/object";
 import { alias } from "@ember/object/computed";
-import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import { isBlank } from "@ember/utils";
+import discourseComputed, { observes } from "discourse-common/utils/decorators";
+import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 
 export default Controller.extend({
   feedSettings: alias("model"),

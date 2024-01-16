@@ -8,8 +8,8 @@
           <DButton
             @icon="save"
             @action={{action "update"}}
-            class="btn-primary"
             @disabled={{unsavable}}
+            class="btn-primary"
           />
         </th>
       </tr>
@@ -50,8 +50,8 @@
           <td>
             <CategoryChooser
               @value={{setting.discourse_category_id}}
-              @class="small"
               @onChange={{action (mut setting.discourse_category_id)}}
+              class="small"
             />
           </td>
           <td>
@@ -60,8 +60,8 @@
               @allowCreate={{false}}
               @everyTag={{true}}
               @unlimitedTagCount={{true}}
-              @class="small"
               @onChange={{action (mut setting.discourse_tags)}}
+              class="small"
             />
           </td>
           <td>
@@ -86,8 +86,8 @@
           <DButton
             @action={{action "create"}}
             @icon="plus"
-            class="btn-secondary"
             @disabled={{saving}}
+            class="btn-secondary"
           />
         </td>
       </tr>
