@@ -6,7 +6,7 @@
 # authors: xrav3nz
 # url: https://github.com/discourse/discourse-rss-polling
 
-load File.expand_path(File.join("..", "lib", "discourse_rss_polling", "engine.rb"), __FILE__)
+require_relative "lib/discourse_rss_polling/engine"
 
 enabled_site_setting :rss_polling_enabled
 add_admin_route "rss_polling.title", "rss_polling"
