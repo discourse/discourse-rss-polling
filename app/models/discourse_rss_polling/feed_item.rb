@@ -39,6 +39,10 @@ module DiscourseRssPolling
       url&.starts_with?("https://www.youtube.com/watch")
     end
 
+    def pubdate
+      @accessor.element_content(:pubDate)
+    end
+
     private
 
     # The tag name's relative order implies its priority.

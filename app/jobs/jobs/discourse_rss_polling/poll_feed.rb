@@ -49,7 +49,7 @@ module Jobs
 
           cook_method = topic.is_youtube? ? Post.cook_methods[:regular] : nil
 
-          TopicEmbed.import(
+          post = TopicEmbed.import(
             author,
             topic.url,
             topic.title,
@@ -58,6 +58,19 @@ module Jobs
             tags: discourse_tags,
             cook_method: cook_method,
           )
+          if SiteSetting.rss_polling_use_pubdate && (post.created_at == post.updated_at) # new post
+            begin
+              post_time = topic.pubdate
+              post.created_at = post_time
+              post.save!
+              post.topic.created_at = post_time
+              post.topic.bumped_at = post_time
+              post.topic.last_posted_at = post_time
+              post.topic.save!
+            rescue
+              Rails.logger.error("Invalid pubDate for topic #{post.topic.id} #{post_time.to_s}")
+            end
+          end
         end
       end
 
