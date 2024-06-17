@@ -58,7 +58,7 @@ module Jobs
             tags: discourse_tags,
             cook_method: cook_method,
           )
-          if SiteSetting.rss_polling_use_pubdate && (post.created_at == post.updated_at) # new post
+          if SiteSetting.rss_polling_use_pubdate && post && (post.created_at == post.updated_at) # new post
             begin
               post_time = topic.pubdate
               post.created_at = post_time
