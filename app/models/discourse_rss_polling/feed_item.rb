@@ -40,7 +40,7 @@ module DiscourseRssPolling
     end
 
     def pubdate
-      @accessor.element_content(:pubDate)
+      @accessor.element_content(:pubDate) || @accessor.element_content(:published)
     end
 
     private
