@@ -15,3 +15,7 @@ plugins:
     max: 180
     default: 30
     client: false
+
+  rss_polling_use_pubdate:
+    default: false
+    client: false
