@@ -19,3 +19,7 @@ plugins:
   rss_polling_use_pubdate:
     default: false
     client: false
+
+  rss_polling_update_tags:
+    default: true
+    client: false

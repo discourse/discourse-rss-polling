@@ -49,13 +49,21 @@ module Jobs
 
           cook_method = topic.is_youtube? ? Post.cook_methods[:regular] : nil
 
+          updated_tags = discourse_tags
+          if !SiteSetting.rss_polling_update_tags
+            url = TopicEmbed.normalize_url(topic.url)
+            embed = TopicEmbed.topic_embed_by_url(url)
+            topic_exists = embed.present?
+            updated_tags = nil if topic_exists
+          end
+
           post = TopicEmbed.import(
             author,
             topic.url,
             topic.title,
             CGI.unescapeHTML(topic.content),
             category_id: discourse_category_id,
-            tags: discourse_tags,
+            tags: updated_tags,
             cook_method: cook_method,
           )
           if SiteSetting.rss_polling_use_pubdate && post && (post.created_at == post.updated_at) # new post
