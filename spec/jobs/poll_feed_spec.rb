@@ -105,5 +105,16 @@ RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
         job.execute(feed_url: feed_url, author_username: author.username)
       }.not_to raise_error
     end
+
+    it "does not raise error for valid xml but non-rss title" do
+      stub_request(:get, feed_url).to_return(
+        status: 200,
+        body: rss_polling_file_fixture("mastodon.rss").read,
+      )
+
+      expect {
+        job.execute(feed_url: feed_url, author_username: author.username)
+      }.not_to raise_error
+    end
   end
 end

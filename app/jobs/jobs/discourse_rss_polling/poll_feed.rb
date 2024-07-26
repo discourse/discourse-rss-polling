@@ -38,20 +38,22 @@ module Jobs
       end
 
       def poll_feed
-        topics_polled_from_feed.each do |topic|
-          next if !topic.content.present?
+        topics_polled_from_feed.each do |feed_item|
+          next if !feed_item.content.present?
+          next if !feed_item.title.present?
+
           if (
                feed_category_filter.present? &&
-                 topic.categories.none? { |c| c.include?(feed_category_filter) }
+                 feed_item.categories.none? { |c| c.include?(feed_category_filter) }
              )
             next
           end
 
-          cook_method = topic.is_youtube? ? Post.cook_methods[:regular] : nil
+          cook_method = feed_item.is_youtube? ? Post.cook_methods[:regular] : nil
 
           updated_tags = discourse_tags
           if !SiteSetting.rss_polling_update_tags
-            url = TopicEmbed.normalize_url(topic.url)
+            url = TopicEmbed.normalize_url(feed_item.url)
             embed = TopicEmbed.topic_embed_by_url(url)
             topic_exists = embed.present?
             updated_tags = nil if topic_exists
@@ -59,9 +61,9 @@ module Jobs
 
           TopicEmbed.import(
             author,
-            topic.url,
-            topic.title,
-            CGI.unescapeHTML(topic.content),
+            feed_item.url,
+            feed_item.title,
+            CGI.unescapeHTML(feed_item.content),
             category_id: discourse_category_id,
             tags: updated_tags,
             cook_method: cook_method,
