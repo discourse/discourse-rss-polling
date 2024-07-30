@@ -79,7 +79,7 @@ module Jobs
               post.topic.last_posted_at = post_time
               post.topic.save!
             rescue StandardError
-              Rails.logger.error("Invalid pubDate for topic #{post.topic.id} #{post_time.to_s}")
+              Rails.logger.error("Invalid pubDate for topic #{post.topic.id} #{post_time}")
             end
           end
         end
