@@ -57,15 +57,16 @@ module Jobs
             updated_tags = nil if topic_exists
           end
 
-          post = TopicEmbed.import(
-            author,
-            topic.url,
-            topic.title,
-            CGI.unescapeHTML(topic.content),
-            category_id: discourse_category_id,
-            tags: updated_tags,
-            cook_method: cook_method,
-          )
+          post =
+            TopicEmbed.import(
+              author,
+              topic.url,
+              topic.title,
+              CGI.unescapeHTML(topic.content),
+              category_id: discourse_category_id,
+              tags: updated_tags,
+              cook_method: cook_method,
+            )
           if SiteSetting.rss_polling_use_pubdate && post && (post.created_at == post.updated_at) # new post
             begin
               post_time = topic.pubdate
@@ -75,7 +76,7 @@ module Jobs
               post.topic.bumped_at = post_time
               post.topic.last_posted_at = post_time
               post.topic.save!
-            rescue
+            rescue StandardError
               Rails.logger.error("Invalid pubDate for topic #{post.topic.id} #{post_time.to_s}")
             end
           end

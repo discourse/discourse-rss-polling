@@ -52,7 +52,9 @@ RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
       it "has a publication date of the feed" do
         topic = author.topics.last
         expect(topic.created_at).to eq_time(DateTime.parse("2017-09-14 15:22:33.000000000 +0000"))
-        expect(topic.first_post.created_at).to eq_time(DateTime.parse("2017-09-14 15:22:33.000000000 +0000"))
+        expect(topic.first_post.created_at).to eq_time(
+          DateTime.parse("2017-09-14 15:22:33.000000000 +0000"),
+        )
       end
     end
 
