@@ -30,6 +30,34 @@ RSpec.describe Jobs::DiscourseRssPolling::PollFeed do
       )
     end
 
+    context "with use_pubdate set to false" do
+      before do
+        SiteSetting.rss_polling_use_pubdate = false
+        job.execute(feed_url: feed_url, author_username: author.username)
+      end
+
+      it "has a publication date of now" do
+        topic = author.topics.last
+        expect(topic.created_at.utc).to be_within(1.second).of Time.now
+        expect(topic.first_post.created_at.utc).to be_within(1.second).of Time.now
+      end
+    end
+
+    context "with use_pubdate set to true" do
+      before do
+        SiteSetting.rss_polling_use_pubdate = true
+        job.execute(feed_url: feed_url, author_username: author.username)
+      end
+
+      it "has a publication date of the feed" do
+        topic = author.topics.last
+        expect(topic.created_at).to eq_time(DateTime.parse("2017-09-14 15:22:33.000000000 +0000"))
+        expect(topic.first_post.created_at).to eq_time(
+          DateTime.parse("2017-09-14 15:22:33.000000000 +0000"),
+        )
+      end
+    end
+
     context "with a previous poll on a topic with tags" do
       let(:tag1) { Fabricate(:tag, name: "test-from-rss") }
       let(:tag2) { Fabricate(:tag, name: "test-update-from-rss") }
