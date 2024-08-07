@@ -100,9 +100,8 @@ module Jobs
           tmp.rewind
           source_filename = File.basename(URI.parse(image_final_url).path)
           upload = UploadCreator.new(tmp, source_filename).create_for(post.user.id)
-          image_md = UploadMarkdown.new(upload).image_markdown
           UploadReference.ensure_exist!(upload_ids: [upload.id], target: post)
-          post.raw = image_md + "\n\n" + post.raw
+          post.raw = "<img src=\"#{upload.url}\"><br/><br/>#{post.raw}"
           post.save!
           post.rebake!
         rescue => e
