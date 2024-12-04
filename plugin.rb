@@ -11,7 +11,7 @@ require_relative "lib/discourse_rss_polling/engine"
 enabled_site_setting :rss_polling_enabled
 add_admin_route "rss_polling.title", "rss_polling"
 register_asset "stylesheets/rss-polling.scss"
-register_svg_icon "save" if respond_to?(:register_svg_icon)
+register_svg_icon "floppy-disk" if respond_to?(:register_svg_icon)
 
 Discourse::Application.routes.append do
   mount ::DiscourseRssPolling::Engine, at: "/admin/plugins/rss_polling"
