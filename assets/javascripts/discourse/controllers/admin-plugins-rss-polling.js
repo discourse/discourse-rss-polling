@@ -1,12 +1,15 @@
 import Controller from "@ember/controller";
 import { action, set } from "@ember/object";
 import { alias } from "@ember/object/computed";
+import { service } from "@ember/service";
 import { isBlank } from "@ember/utils";
 import { observes } from "@ember-decorators/object";
 import discourseComputed from "discourse-common/utils/decorators";
+import { i18n } from "discourse-i18n";
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 
 export default class AdminPluginsRssPollingController extends Controller {
+  @service dialog;
   @alias("model") feedSettings;
 
   saving = false;
@@ -45,8 +48,13 @@ export default class AdminPluginsRssPollingController extends Controller {
 
   @action
   destroyFeedSetting(feedSetting) {
-    this.get("feedSettings").removeObject(feedSetting);
-    this.send("update");
+    this.dialog.deleteConfirm({
+      message: i18n("admin.rss_polling.destroy_feed.confirm"),
+      didConfirm: () => {
+        this.get("feedSettings").removeObject(feedSetting);
+        this.send("update");
+      },
+    });
   }
 
   @action
