@@ -6,9 +6,9 @@
         <th colspan="3">{{i18n "admin.rss_polling.discourse"}}</th>
         <th rowspan="2">
           <DButton
-            @icon="save"
+            @icon="floppy-disk"
             @action={{action "update"}}
-            @disabled={{unsavable}}
+            @disabled={{this.unsavable}}
             class="btn-primary"
           />
         </th>
@@ -23,26 +23,26 @@
     </thead>
 
     <tbody>
-      {{#each model as |setting|}}
+      {{#each this.model as |setting|}}
         <tr>
           <td>
             <Input
               @value={{setting.feed_url}}
               placeholder="https://blog.example.com/feed"
-              disabled={{saving}}
+              disabled={{this.saving}}
             />
           </td>
           <td>
             <Input
               @value={{setting.feed_category_filter}}
               placeholder="updates"
-              disabled={{saving}}
+              disabled={{this.saving}}
             />
           </td>
           <td>
             <EmailGroupUserChooser
               @value={{setting.author_username}}
-              @disabled={{saving}}
+              @disabled={{this.saving}}
               @onChange={{action "updateAuthorUsername" setting}}
               @options={{hash maximum=1}}
             />
@@ -66,9 +66,9 @@
           </td>
           <td>
             <DButton
-              @icon="times"
-              @action={{action "destroy" setting}}
-              @disabled={{saving}}
+              @icon="xmark"
+              @action={{action "destroyFeedSetting" setting}}
+              @disabled={{this.saving}}
             />
           </td>
         </tr>
@@ -86,7 +86,7 @@
           <DButton
             @action={{action "create"}}
             @icon="plus"
-            @disabled={{saving}}
+            @disabled={{this.saving}}
             class="btn-secondary"
           />
         </td>
