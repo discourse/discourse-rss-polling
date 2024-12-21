@@ -35,6 +35,10 @@ module DiscourseRssPolling
       @accessor.element_content(:categories).map { |c| c.content }
     end
 
+    def image_link
+      @accessor.element_content(:itunes_image)&.href
+    end
+
     def is_youtube?
       url&.starts_with?("https://www.youtube.com/watch")
     end
