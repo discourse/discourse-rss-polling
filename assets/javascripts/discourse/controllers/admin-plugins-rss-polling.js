@@ -14,6 +14,7 @@ export default class AdminPluginsRssPollingController extends Controller {
 
   saving = false;
   valid = false;
+  disabled = true;
 
   @discourseComputed("valid", "saving")
   unsavable(valid, saving) {
@@ -37,36 +38,58 @@ export default class AdminPluginsRssPollingController extends Controller {
 
   @action
   create() {
-    this.get("feedSettings").addObject({
+    let newSetting = {
       feed_url: null,
       author_username: null,
       discourse_category_id: null,
       discourse_tags: null,
       feed_category_filter: null,
-    });
+      disabled: false,
+      editing: true
+    };
+
+    this.get("feedSettings").addObject(newSetting);
   }
 
   @action
-  destroyFeedSetting(feedSetting) {
+  destroyFeedSetting(setting) {
     this.dialog.deleteConfirm({
       message: i18n("admin.rss_polling.destroy_feed.confirm"),
       didConfirm: () => {
-        this.get("feedSettings").removeObject(feedSetting);
-        this.send("update");
+        RssPollingFeedSettings.deleteFeed(setting)
+          .then(() => {
+            this.get("feedSettings").removeObject(setting);
+          })
+          .finally(() => {
+            this.set("saving", false);
+          });
       },
     });
   }
 
   @action
-  update() {
+  editFeedSetting(setting) {
+    set(setting, "disabled", false);
+    set(setting, "editing", true);
+  }
+
+  @action
+  cancelEdit(setting) {
+    set(setting, "disabled", true);
+    set(setting, "editing", false);
+  }
+
+  @action
+  updateFeedSetting(setting) {
     this.set("saving", true);
 
-    RssPollingFeedSettings.update(this.get("feedSettings"))
-      .then((updatedSettings) => {
-        this.set("feedSettings", updatedSettings["feed_settings"]);
+    RssPollingFeedSettings.updateFeed(setting)
+      .then(() => {
       })
       .finally(() => {
         this.set("saving", false);
+        set(setting, "disabled", true);
+        set(setting, "editing", false);
       });
   }
 

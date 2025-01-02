@@ -7,6 +7,7 @@ module DiscourseRssPolling
       feed = RssFeed.where("url LIKE ?", "%#{host}%").first
       return nil if !feed
       FeedSetting.new(
+        id: feed.id,
         feed_url: feed.url,
         author_username: feed.author,
         discourse_category_id: feed.category_id,
@@ -31,6 +32,7 @@ module DiscourseRssPolling
     def all
       RssFeed.all.map do |feed|
         FeedSetting.new(
+          id: feed.id,
           feed_url: feed.url,
           author_username: feed.author,
           discourse_category_id: feed.category_id,
