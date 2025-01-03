@@ -45,7 +45,7 @@ export default class AdminPluginsRssPollingController extends Controller {
       discourse_tags: null,
       feed_category_filter: null,
       disabled: false,
-      editing: true
+      editing: true,
     };
 
     this.get("feedSettings").addObject(newSetting);
@@ -84,8 +84,7 @@ export default class AdminPluginsRssPollingController extends Controller {
     this.set("saving", true);
 
     RssPollingFeedSettings.updateFeed(setting)
-      .then(() => {
-      })
+      .then(() => {})
       .finally(() => {
         this.set("saving", false);
         set(setting, "disabled", true);

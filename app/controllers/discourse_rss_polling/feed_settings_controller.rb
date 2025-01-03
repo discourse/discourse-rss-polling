@@ -19,7 +19,7 @@ module DiscourseRssPolling
           author: feed["author_username"],
           category_id: feed["discourse_category_id"],
           tags: feed["discourse_tags"]&.join(","),
-          category_filter: feed["feed_category_filter"]
+          category_filter: feed["feed_category_filter"],
         )
         if rss_feed.save
           render json: { success: true }
