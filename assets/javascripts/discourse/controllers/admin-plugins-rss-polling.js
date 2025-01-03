@@ -75,6 +75,9 @@ export default class AdminPluginsRssPollingController extends Controller {
 
   @action
   cancelEdit(setting) {
+    if (!setting.id) {
+      this.get("feedSettings").removeObject(setting);
+    }
     set(setting, "disabled", true);
     set(setting, "editing", false);
   }

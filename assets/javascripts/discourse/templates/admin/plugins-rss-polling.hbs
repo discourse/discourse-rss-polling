@@ -4,18 +4,12 @@
       <tr>
         <th colspan="2">{{i18n "admin.rss_polling.feed"}}</th>
         <th colspan="3">{{i18n "admin.rss_polling.discourse"}}</th>
-        <th rowspan="2">
-          {{!-- <DButton
-            @icon="floppy-disk"
-            @action={{action "update"}}
-            @disabled={{this.unsavable}}
-            class="btn-primary"
-          /> --}}
+        <th rowspan="2" colspan="2">
           <DButton
             @action={{action "create"}}
             @icon="plus"
             @disabled={{this.saving}}
-            class="btn-secondary"
+            class="btn-primary wide-button"
           />
         </th>
       </tr>
