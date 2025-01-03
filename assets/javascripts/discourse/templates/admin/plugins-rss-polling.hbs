@@ -49,19 +49,14 @@
             <EmailGroupUserChooser
               @value={{setting.author_username}}
               @onChange={{action "updateAuthorUsername" setting}}
-              @options={{hash
-                disabled=setting.disabled
-                maximum=1
-              }}
+              @options={{hash disabled=setting.disabled maximum=1}}
             />
           </td>
           <td>
             <CategoryChooser
               @value={{setting.discourse_category_id}}
               @onChange={{action (mut setting.discourse_category_id)}}
-              @options={{hash
-                disabled=setting.disabled
-              }}
+              @options={{hash disabled=setting.disabled}}
               class="small"
             />
           </td>
@@ -72,9 +67,7 @@
               @everyTag={{true}}
               @unlimitedTagCount={{true}}
               @onChange={{action (mut setting.discourse_tags)}}
-              @options={{hash
-                disabled=setting.disabled
-              }}
+              @options={{hash disabled=setting.disabled}}
               class="small"
             />
           </td>
