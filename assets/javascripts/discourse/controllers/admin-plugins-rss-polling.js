@@ -4,10 +4,10 @@ import { alias } from "@ember/object/computed";
 import { service } from "@ember/service";
 import { isBlank } from "@ember/utils";
 import { observes } from "@ember-decorators/object";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 import discourseComputed from "discourse-common/utils/decorators";
 import { i18n } from "discourse-i18n";
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
-import { popupAjaxError } from "discourse/lib/ajax-error";
 
 export default class AdminPluginsRssPollingController extends Controller {
   @service dialog;
