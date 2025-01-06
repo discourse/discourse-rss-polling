@@ -69,18 +69,55 @@ module Jobs
               tags: updated_tags,
               cook_method: cook_method,
             )
-          if SiteSetting.rss_polling_use_pubdate && post && (post.created_at == post.updated_at) # new post
-            begin
-              post_time = feed_item.pubdate
-              post.created_at = post_time
-              post.save!
-              post.topic.created_at = post_time
-              post.topic.bumped_at = post_time
-              post.topic.last_posted_at = post_time
-              post.topic.save!
-            rescue StandardError
-              Rails.logger.error("Invalid pubDate for topic #{post.topic.id} #{post_time}")
+          if post && (post.created_at == post.updated_at) # new post
+            if SiteSetting.rss_polling_use_pubdate
+              begin
+                post_time = feed_item.pubdate
+                post.created_at = post_time
+                post.save!
+                post.topic.created_at = post_time
+                post.topic.bumped_at = post_time
+                post.topic.last_posted_at = post_time
+                post.topic.save!
+              rescue StandardError
+                Rails.logger.error("Invalid pubDate for topic #{post.topic.id} #{post_time}")
+              end
             end
+
+            set_image_as_thumbnail(post, feed_item.image_link) if feed_item.image_link
+          end
+        end
+      end
+
+      def set_image_as_thumbnail(post, image_link)
+        begin
+          final_destination = FinalDestination.new(image_link)
+          image_final_url = final_destination.resolve
+          image_data = Excon.new(image_final_url.to_s).request(method: :get, expects: 200).body
+          tmp = Tempfile.new("downloaded_image")
+          tmp.binmode
+          tmp.write(image_data)
+          tmp.rewind
+          source_filename = File.basename(URI.parse(image_final_url).path)
+          upload = UploadCreator.new(tmp, source_filename).create_for(post.user.id)
+          UploadReference.ensure_exist!(upload_ids: [upload.id], target: post)
+          post.raw = "<img src=\"#{upload.url}\"><br/><br/>#{post.raw}"
+          post.save!
+          post.rebake!
+        rescue => e
+          Rails.logger.error(
+            "RSS Polling: Unable to download and save #{image_link} for post ##{post.id} #{e.message}",
+          )
+        ensure
+          begin
+            tmp.close
+          rescue StandardError
+            nil
+          end
+          begin
+            tmp.unlink
+          rescue StandardError
+            nil
           end
         end
       end
