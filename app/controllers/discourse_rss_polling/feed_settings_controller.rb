@@ -36,7 +36,7 @@ module DiscourseRssPolling
       rss_feed = RssFeed.find_by_id(feed["id"])
 
       if rss_feed
-        rss_feed.destroy
+        rss_feed.destroy!
         render json: { success: true }
       else
         render json: { success: false, error: "Feed not found" }, status: 404

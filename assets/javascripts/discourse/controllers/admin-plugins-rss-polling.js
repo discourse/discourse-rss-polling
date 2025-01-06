@@ -7,6 +7,7 @@ import { observes } from "@ember-decorators/object";
 import discourseComputed from "discourse-common/utils/decorators";
 import { i18n } from "discourse-i18n";
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 
 export default class AdminPluginsRssPollingController extends Controller {
   @service dialog;
@@ -55,14 +56,15 @@ export default class AdminPluginsRssPollingController extends Controller {
   destroyFeedSetting(setting) {
     this.dialog.deleteConfirm({
       message: i18n("admin.rss_polling.destroy_feed.confirm"),
-      didConfirm: () => {
-        RssPollingFeedSettings.deleteFeed(setting)
-          .then(() => {
-            this.get("feedSettings").removeObject(setting);
-          })
-          .finally(() => {
-            this.set("saving", false);
-          });
+      didConfirm: async () => {
+        try {
+          await RssPollingFeedSettings.deleteFeed(setting);
+          this.get("feedSettings").removeObject(setting);
+        } catch (error) {
+          popupAjaxError(error);
+        } finally {
+          this.set("saving", false);
+        }
       },
     });
   }
@@ -83,16 +85,18 @@ export default class AdminPluginsRssPollingController extends Controller {
   }
 
   @action
-  updateFeedSetting(setting) {
+  async updateFeedSetting(setting) {
     this.set("saving", true);
 
-    RssPollingFeedSettings.updateFeed(setting)
-      .then(() => {})
-      .finally(() => {
-        this.set("saving", false);
-        set(setting, "disabled", true);
-        set(setting, "editing", false);
-      });
+    try {
+      await RssPollingFeedSettings.updateFeed(setting);
+    } catch (error) {
+      popupAjaxError(error);
+    } finally {
+      this.set("saving", false);
+      set(setting, "disabled", true);
+      set(setting, "editing", false);
+    }
   }
 
   @action

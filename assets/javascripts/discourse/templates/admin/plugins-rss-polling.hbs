@@ -69,7 +69,7 @@
             {{#if setting.editing}}
               <DButton
                 @icon="floppy-disk"
-                @action={{action "updateFeedSetting" setting}}
+                @action={{fn this.updateFeedSetting setting}}
                 @disabled={{this.unsavable}}
                 class="btn-primary"
               />
