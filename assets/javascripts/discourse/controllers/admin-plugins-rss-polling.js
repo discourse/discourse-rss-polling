@@ -4,6 +4,7 @@ import { alias } from "@ember/object/computed";
 import { service } from "@ember/service";
 import { isBlank } from "@ember/utils";
 import { observes } from "@ember-decorators/object";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 import discourseComputed from "discourse-common/utils/decorators";
 import { i18n } from "discourse-i18n";
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
@@ -14,6 +15,7 @@ export default class AdminPluginsRssPollingController extends Controller {
 
   saving = false;
   valid = false;
+  disabled = true;
 
   @discourseComputed("valid", "saving")
   unsavable(valid, saving) {
@@ -37,37 +39,64 @@ export default class AdminPluginsRssPollingController extends Controller {
 
   @action
   create() {
-    this.get("feedSettings").addObject({
+    let newSetting = {
       feed_url: null,
       author_username: null,
       discourse_category_id: null,
       discourse_tags: null,
       feed_category_filter: null,
-    });
+      disabled: false,
+      editing: true,
+    };
+
+    this.get("feedSettings").addObject(newSetting);
   }
 
   @action
-  destroyFeedSetting(feedSetting) {
+  destroyFeedSetting(setting) {
     this.dialog.deleteConfirm({
       message: i18n("admin.rss_polling.destroy_feed.confirm"),
-      didConfirm: () => {
-        this.get("feedSettings").removeObject(feedSetting);
-        this.send("update");
+      didConfirm: async () => {
+        try {
+          await RssPollingFeedSettings.deleteFeed(setting);
+          this.get("feedSettings").removeObject(setting);
+        } catch (error) {
+          popupAjaxError(error);
+        } finally {
+          this.set("saving", false);
+        }
       },
     });
   }
 
   @action
-  update() {
+  editFeedSetting(setting) {
+    set(setting, "disabled", false);
+    set(setting, "editing", true);
+  }
+
+  @action
+  cancelEdit(setting) {
+    if (!setting.id) {
+      this.get("feedSettings").removeObject(setting);
+    }
+    set(setting, "disabled", true);
+    set(setting, "editing", false);
+  }
+
+  @action
+  async updateFeedSetting(setting) {
     this.set("saving", true);
 
-    RssPollingFeedSettings.update(this.get("feedSettings"))
-      .then((updatedSettings) => {
-        this.set("feedSettings", updatedSettings["feed_settings"]);
-      })
-      .finally(() => {
-        this.set("saving", false);
-      });
+    try {
+      await RssPollingFeedSettings.updateFeed(setting);
+    } catch (error) {
+      popupAjaxError(error);
+    } finally {
+      this.set("saving", false);
+      set(setting, "disabled", true);
+      set(setting, "editing", false);
+    }
   }
 
   @action

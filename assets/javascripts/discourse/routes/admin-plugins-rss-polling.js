@@ -7,6 +7,11 @@ export default class AdminPluginsRssPolling extends DiscourseRoute {
   }
 
   setupController(controller, model) {
+    model.forEach((setting) => {
+      setting.disabled = true;
+      setting.editing = false;
+    });
+
     controller.setProperties({
       model,
     });

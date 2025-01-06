@@ -4,12 +4,12 @@
       <tr>
         <th colspan="2">{{i18n "admin.rss_polling.feed"}}</th>
         <th colspan="3">{{i18n "admin.rss_polling.discourse"}}</th>
-        <th rowspan="2">
+        <th rowspan="2" colspan="2">
           <DButton
-            @icon="floppy-disk"
-            @action={{action "update"}}
-            @disabled={{this.unsavable}}
-            class="btn-primary"
+            @action={{action "create"}}
+            @icon="plus"
+            @disabled={{this.saving}}
+            class="btn-primary wide-button"
           />
         </th>
       </tr>
@@ -29,28 +29,28 @@
             <Input
               @value={{setting.feed_url}}
               placeholder="https://blog.example.com/feed"
-              disabled={{this.saving}}
+              disabled={{setting.disabled}}
             />
           </td>
           <td>
             <Input
               @value={{setting.feed_category_filter}}
               placeholder="updates"
-              disabled={{this.saving}}
+              disabled={{setting.disabled}}
             />
           </td>
           <td>
             <EmailGroupUserChooser
               @value={{setting.author_username}}
-              @disabled={{this.saving}}
               @onChange={{action "updateAuthorUsername" setting}}
-              @options={{hash maximum=1}}
+              @options={{hash disabled=setting.disabled maximum=1}}
             />
           </td>
           <td>
             <CategoryChooser
               @value={{setting.discourse_category_id}}
               @onChange={{action (mut setting.discourse_category_id)}}
+              @options={{hash disabled=setting.disabled}}
               class="small"
             />
           </td>
@@ -61,15 +61,35 @@
               @everyTag={{true}}
               @unlimitedTagCount={{true}}
               @onChange={{action (mut setting.discourse_tags)}}
+              @options={{hash disabled=setting.disabled}}
               class="small"
             />
           </td>
           <td>
-            <DButton
-              @icon="xmark"
-              @action={{action "destroyFeedSetting" setting}}
-              @disabled={{this.saving}}
-            />
+            {{#if setting.editing}}
+              <DButton
+                @icon="floppy-disk"
+                @action={{fn this.updateFeedSetting setting}}
+                @disabled={{this.unsavable}}
+                class="btn-primary"
+              />
+              <DButton
+                @icon="xmark"
+                @action={{action "cancelEdit" setting}}
+                @disabled={{this.saving}}
+              />
+            {{else}}
+              <DButton
+                @icon="pencil"
+                @action={{action "editFeedSetting" setting}}
+                @disabled={{this.saving}}
+              />
+              <DButton
+                @icon="trash-can"
+                @action={{action "destroyFeedSetting" setting}}
+                @disabled={{this.saving}}
+              />
+            {{/if}}
           </td>
         </tr>
       {{/each}}
@@ -82,14 +102,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td>
-          <DButton
-            @action={{action "create"}}
-            @icon="plus"
-            @disabled={{this.saving}}
-            class="btn-secondary"
-          />
-        </td>
+        <td></td>
       </tr>
     </tfoot>
   </table>

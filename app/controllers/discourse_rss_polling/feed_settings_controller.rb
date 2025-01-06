@@ -9,49 +9,38 @@ module DiscourseRssPolling
     end
 
     def update
-      if params[:feed_settings] == []
-        RssFeed.destroy_all
-      else
-        # Temporary until we start using IDs from the db
-        # and can update individual items
-        if feed_setting_params.presence
-          current_feeds = RssFeed.all.to_a
-          feed_setting_params.each do |feed|
-            current_feeds.delete_if do |h|
-              h.url == feed["feed_url"] && h.category_id == feed["discourse_category_id"].to_i &&
-                h.category_filter == feed["feed_category_filter"]
-            end
-            rss_feed =
-              RssFeed.find_by(
-                url: feed["feed_url"],
-                category_id: feed["discourse_category_id"],
-                category_filter: feed["feed_category_filter"],
-              )
-            if rss_feed
-              rss_feed.update!(
-                url: feed["feed_url"],
-                author: feed["author_username"],
-                category_id: feed["discourse_category_id"],
-                tags: feed["discourse_tags"]&.join(","),
-                category_filter: feed["feed_category_filter"],
-              )
-            else
-              RssFeed.create!(
-                url: feed["feed_url"],
-                author: feed["author_username"],
-                category_id: feed["discourse_category_id"],
-                tags: feed["discourse_tags"]&.join(","),
-                category_filter: feed["feed_category_filter"],
-              )
-            end
+      feed = params[:feed_setting]
 
-            # Delete any remaining feeds
-            current_feeds.each { |f| RssFeed.destroy_by(id: f.id) }
-          end
+      if feed
+        rss_feed = RssFeed.find_by_id(feed["id"]) || RssFeed.new
+
+        rss_feed.assign_attributes(
+          url: feed["feed_url"],
+          author: feed["author_username"],
+          category_id: feed["discourse_category_id"],
+          tags: feed["discourse_tags"]&.join(","),
+          category_filter: feed["feed_category_filter"],
+        )
+        if rss_feed.save
+          render json: { success: true }
+        else
+          render json: { success: false, errors: rss_feed.errors.full_messages }, status: 422
         end
+      else
+        render json: { success: false, error: "Invalid feed data" }, status: 400
       end
+    end
 
-      render json: FeedSettingFinder.all
+    def destroy
+      feed = params[:feed_setting]
+      rss_feed = RssFeed.find_by_id(feed["id"])
+
+      if rss_feed
+        rss_feed.destroy!
+        render json: { success: true }
+      else
+        render json: { success: false, error: "Feed not found" }, status: 404
+      end
     end
 
     private

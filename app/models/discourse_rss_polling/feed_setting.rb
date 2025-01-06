@@ -5,6 +5,7 @@ module DiscourseRssPolling
     include ActiveModel::Serialization
 
     attr_accessor(
+      :id,
       :feed_url,
       :author_username,
       :discourse_category_id,
@@ -13,12 +14,14 @@ module DiscourseRssPolling
     )
 
     def initialize(
+      id: nil,
       feed_url:,
       author_username:,
       discourse_category_id:,
       discourse_tags:,
       feed_category_filter:
     )
+      @id = id
       @feed_url = feed_url
       @author_username = author_username
       @discourse_category_id = discourse_category_id
