@@ -5,7 +5,7 @@ import { service } from "@ember/service";
 import { isBlank } from "@ember/utils";
 import { observes } from "@ember-decorators/object";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import discourseComputed from "discourse-common/utils/decorators";
+import discourseComputed from "discourse/lib/decorators";
 import { i18n } from "discourse-i18n";
 import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings";
 
