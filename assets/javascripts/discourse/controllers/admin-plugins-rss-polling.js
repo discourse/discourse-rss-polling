@@ -11,6 +11,7 @@ import RssPollingFeedSettings from "../../admin/models/rss-polling-feed-settings
 
 export default class AdminPluginsRssPollingController extends Controller {
   @service dialog;
+
   @alias("model") feedSettings;
 
   saving = false;

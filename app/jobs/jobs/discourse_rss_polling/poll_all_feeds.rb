@@ -17,7 +17,7 @@ module Jobs
         ::DiscourseRssPolling::FeedSettingFinder.all.each(&:poll)
       end
 
-      REDIS_KEY ||= "rss-polling-feeds-polled"
+      REDIS_KEY = "rss-polling-feeds-polled"
 
       def not_polled_recently?
         Discourse.redis.set(
