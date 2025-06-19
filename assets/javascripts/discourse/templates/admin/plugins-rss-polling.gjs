@@ -20,7 +20,7 @@ export default RouteTemplate(
                 @action={{@controller.create}}
                 @icon="plus"
                 @disabled={{@controller.saving}}
-                class="btn-primary wide-button"
+                class="btn-primary wide-button add-rss-polling-feed"
               />
             </th>
           </tr>
@@ -41,6 +41,7 @@ export default RouteTemplate(
                   @value={{setting.feed_url}}
                   placeholder="https://blog.example.com/feed"
                   disabled={{setting.disabled}}
+                  class="rss-polling-feed-url"
                 />
               </td>
               <td>
@@ -48,13 +49,15 @@ export default RouteTemplate(
                   @value={{setting.feed_category_filter}}
                   placeholder="updates"
                   disabled={{setting.disabled}}
+                  class="rss-polling-feed-updates"
                 />
               </td>
               <td>
                 <EmailGroupUserChooser
                   @value={{setting.author_username}}
-                  @onChange={{fn "updateAuthorUsername" setting}}
+                  @onChange={{fn @controller.updateAuthorUsername setting}}
                   @options={{hash disabled=setting.disabled maximum=1}}
+                  class="rss-polling-feed-user"
                 />
               </td>
               <td>
@@ -62,7 +65,7 @@ export default RouteTemplate(
                   @value={{setting.discourse_category_id}}
                   @onChange={{fn (mut setting.discourse_category_id)}}
                   @options={{hash disabled=setting.disabled}}
-                  class="small"
+                  class="small rss-polling-feed-category"
                 />
               </td>
               <td>
@@ -73,7 +76,7 @@ export default RouteTemplate(
                   @unlimitedTagCount={{true}}
                   @onChange={{fn (mut setting.discourse_tags)}}
                   @options={{hash disabled=setting.disabled}}
-                  class="small"
+                  class="small rss-polling-feed-tag"
                 />
               </td>
               <td>
@@ -82,7 +85,7 @@ export default RouteTemplate(
                     @icon="floppy-disk"
                     @action={{fn @controller.updateFeedSetting setting}}
                     @disabled={{@controller.unsavable}}
-                    class="btn-primary"
+                    class="btn-primary save-rss-polling-feed"
                   />
                   <DButton
                     @icon="xmark"
