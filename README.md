@@ -1,4 +1,7 @@
-# Discourse RSS Polling [![Build Status](https://travis-ci.org/discourse/discourse-rss-polling.svg?branch=master)](https://travis-ci.org/discourse/discourse-rss-polling)
+# Discourse RSS Polling
+
+> [!IMPORTANT]
+> This plugin has now been bundled into Discourse core. See: https://meta.discourse.org/t/bundling-more-popular-plugins-with-discourse-core/373574
 
 Import RSS feeds from different sources into your Discourse.
 
